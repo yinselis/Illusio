@@ -1619,6 +1619,13 @@ body.theme-wechat .load-more, body.theme-imessage .load-more {
                     </label>
                 </div>
                 <div class="setting-row">
+                    <label>开启字卡拼接</label>
+                    <label class="switch">
+                        <input type="checkbox" id="enableCardSplicingInput">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="setting-row">
     <label>显示悬浮球</label>
     <label class="switch">
         <input type="checkbox" id="showFloatingBallInput">
@@ -2830,7 +2837,7 @@ body.theme-wechat .load-more, body.theme-imessage .load-more {
         let currentChatId = 'default';
 
         let currentSettings = { 
-theme: "light", dataId: generateUUID(),petEnabled: "false", petSize: 100, petSpeed: 2, petRoam: "false", petIdleUrl: "", petWalkUrl: "", petDragUrl: "", charName: "TA", userName: "我", minTime: 1.0, maxTime: 3.0, readButNoReply: "false", showFloatingBall: "false", enableStats: "true", showDotBg: "true",
+theme: "light", dataId: generateUUID(),petEnabled: "false", petSize: 100, petSpeed: 2, petRoam: "false", petIdleUrl: "", petWalkUrl: "", petDragUrl: "", charName: "TA", userName: "我", minTime: 1.0, maxTime: 3.0, readButNoReply: "false", showFloatingBall: "false", enableStats: "true", showDotBg: "true", enableCardSplicing: "false",
     avatarShape: "square",
             avatarUrl: "", frameUrl: "", frameX: 50, frameY: 50, frameScale: 100, 
             userAvatarUrl: "", userFrameUrl: "", userFrameX: 50, userFrameY: 50, userFrameScale: 100, 
@@ -3182,6 +3189,7 @@ document.documentElement.style.setProperty('--bg-pattern', currentSettings.showD
             document.getElementById('minTime').value = currentSettings.minTime || 1.0;
             document.getElementById('maxTime').value = currentSettings.maxTime || 3.0;
             if (document.getElementById('readButNoReplyInput')) document.getElementById('readButNoReplyInput').checked = (currentSettings.readButNoReply === "true");
+            if (document.getElementById('enableCardSplicingInput')) document.getElementById('enableCardSplicingInput').checked = (currentSettings.enableCardSplicing === "true");
             if (document.getElementById('showFloatingBallInput')) document.getElementById('showFloatingBallInput').checked = (currentSettings.showFloatingBall === "true");
             if (document.getElementById('showSideToolbarInput')) document.getElementById('showSideToolbarInput').checked = (currentSettings.showSideToolbar !== "false");
 if (document.getElementById('enableStatsInput')) document.getElementById('enableStatsInput').checked = (currentSettings.enableStats !== "false");
@@ -3358,6 +3366,7 @@ if (currentSettings.theme) {
             currentSettings.minTime = parseFloat(document.getElementById('minTime').value);
             currentSettings.maxTime = parseFloat(document.getElementById('maxTime').value);
             if (document.getElementById('readButNoReplyInput')) currentSettings.readButNoReply = document.getElementById('readButNoReplyInput').checked ? "true" : "false";
+            if (document.getElementById('enableCardSplicingInput')) currentSettings.enableCardSplicing = document.getElementById('enableCardSplicingInput').checked ? "true" : "false";
             if (document.getElementById('showFloatingBallInput')) currentSettings.showFloatingBall = document.getElementById('showFloatingBallInput').checked ? "true" : "false";
             if (document.getElementById('showSideToolbarInput')) currentSettings.showSideToolbar = document.getElementById('showSideToolbarInput').checked ? "true" : "false";
 if (document.getElementById('enableStatsInput')) currentSettings.enableStats = document.getElementById('enableStatsInput').checked ? "true" : "false";
@@ -3886,6 +3895,9 @@ async function renderCardsList() {
             container.style.scrollBehavior = 'auto'; 
             
             const oldScrollHeight = container.scrollHeight;
+            // 修复PWA闪屏：在清空列表前，先把正在输入中的气泡“救”出来
+            const ti = document.getElementById('typingIndicator');
+            if (ti && ti.parentNode === container) document.body.appendChild(ti);
             container.innerHTML = '';
             
             const fragment = document.createDocumentFragment();
@@ -4229,6 +4241,7 @@ if (Math.random() < 0.03 && recentUserMsgs.length > 0) {
             tAvatar.style.borderRadius = currentSettings.avatarShape === 'circle' ? '50%' : '6px';
             
             // --- 展现正在输入UI并滚到底部 ---
+            document.getElementById('chatContainer').appendChild(typingIndicator); // 移入容器内部，防止挤压屏幕闪烁
             typingIndicator.style.display = 'flex';
             setTimeout(() => { if (typeof scrollToBottom === 'function') scrollToBottom(false); }, 50);
 
@@ -4241,9 +4254,10 @@ await delay(waitTime);
 if (Math.random() < 0.05 && !isPhoneCallActive && document.getElementById('phoneCallModal').style.display !== 'flex') {
     if (typeof aiInitiatePhoneCall === 'function') {
         aiInitiatePhoneCall(replier);
-        typingIndicator.style.display = 'none';
-        isReplying = false;
-        return; // 中断本次发文字的流程，全屏切入电话模式
+                typingIndicator.style.display = 'none';
+                document.body.appendChild(typingIndicator); // 电话打断时也要归位
+                isReplying = false;
+                return; // 中断本次发文字的流程，全屏切入电话模式
     }
 }
 // ==============================================================
@@ -4260,7 +4274,21 @@ const allWords = await getAllFromDB('wordCards');
             const hasStickers = allStickers.length > 0;
             const roll = Math.random();
 
-            let replyText = validWords.length > 0 ? validWords[Math.floor(Math.random() * validWords.length)].text : "（字卡库为空或未选中任何有效的分组）";
+            let replyText = "（字卡库为空或未选中任何有效的分组）";
+            if (validWords.length > 0) {
+                // 如果开启了字卡拼接，且中了 15% 的概率
+                if (currentSettings.enableCardSplicing === "true" && Math.random() < 0.15) {
+                    const spliceCount = Math.random() < 0.5 ? 2 : 3; // 50%概率抽2条，50%概率抽3条
+                    let splicedArr = [];
+                    for(let k = 0; k < spliceCount; k++) {
+                        splicedArr.push(validWords[Math.floor(Math.random() * validWords.length)].text);
+                    }
+                    replyText = splicedArr.join("，"); // 用中文逗号拼接起来
+                } else {
+                    // 原本的普通单抽逻辑
+                    replyText = validWords[Math.floor(Math.random() * validWords.length)].text;
+                }
+            }
             const randomSticker = hasStickers ? allStickers[Math.floor(Math.random() * allStickers.length)].url : null;
 
             // 取出一个引用（如果有的话）
@@ -4297,6 +4325,7 @@ if (hasStickers) {
     
     // 整个房间里所有想说话的人都说完了，结束回复状态
     typingIndicator.style.display = 'none';
+    document.body.appendChild(typingIndicator); // 归位到外部，避免被夹在历史记录里
     isReplying = false;
 }
 

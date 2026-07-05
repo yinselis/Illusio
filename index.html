@@ -1527,7 +1527,7 @@ body.theme-wechat .load-more, body.theme-imessage .load-more {
                 </button>
             </div>
             <div class="input-box">
-                <input type="text" id="messageInput" class="main-input" placeholder="输入对话内容..." autocomplete="off" name="chat_input_random" onkeypress="handleKeyPress(event)">
+                <input type="text" id="messageInput" class="main-input" placeholder="输入对话内容..." autocomplete="new-password" data-lpignore="true" readonly onfocus="this.removeAttribute('readonly');" onkeypress="handleKeyPress(event)">
             </div>
             <button class="send-btn" onclick="sendMessage()">SEND</button>
         </div>
@@ -2601,7 +2601,7 @@ body.theme-wechat .load-more, body.theme-imessage .load-more {
             </div>
             <div class="form-group">
                 <label>API Key (密钥)</label>
-                <input type="password" id="apiKeyInput" placeholder="sk-xxxxxxxxx">
+                <input type="password" id="apiKeyInput" placeholder="sk-xxxxxxxxx" autocomplete="new-password" data-lpignore="true">
             </div>
             <div class="form-group">
                 <label>模型选择</label>

@@ -2353,8 +2353,130 @@ body.theme-wechat .load-more, body.theme-imessage .load-more {
         </div>
 
         <!-- 聊天气泡区 -->
-        <div id="tsContentBubble" style="flex:1; overflow-y:auto; display:none; flex-direction:column; padding:15px; background:var(--bg-color); background-image:var(--bg-pattern); background-size:var(--bg-size);">
-            <div style="text-align:center; opacity:0.5; font-weight:900; padding:40px 0; font-style:italic;">聊天气泡商城 建设中...</div>
+        <div id="tsContentBubble" style="flex:1; overflow-y:auto; display:none; flex-direction:column; padding:15px; background:var(--bg-color); background-image:var(--bg-pattern); background-size:var(--bg-size); gap: 15px;">
+            
+            <div style="text-align:center; opacity:0.6; font-size:0.8em; font-weight:900; margin-bottom:5px;">以下气泡可无视当前主题，强制覆盖全局</div>
+
+            <!-- 1. 默认气泡 -->
+            <div style="background: var(--panel-bg); border: 3px solid var(--border-color); border-radius: 8px; padding: 15px; box-shadow: 4px 4px 0 var(--border-color); display: flex; flex-direction: column; gap: 12px;">
+                <div style="font-weight: 900; font-size: 1.1em; display:flex; justify-content:space-between; align-items:center;">
+                    <span>默认气泡</span>
+                    <span style="font-size: 0.7em; background: var(--text-color); color: var(--bg-color); padding: 2px 6px; border-radius: 4px; font-style: italic;">跟随当前主题</span>
+                </div>
+                <button class="outline-btn" style="margin: 0; padding: 10px;" onclick="applyBubbleStyle('default')">恢复默认</button>
+            </div>
+
+            <!-- 2. 纸胶带手账风 -->
+            <div style="background: var(--panel-bg); border: 3px solid var(--border-color); border-radius: 8px; padding: 15px; box-shadow: 4px 4px 0 var(--border-color); display: flex; flex-direction: column; gap: 12px;">
+                <div style="font-weight: 900; font-size: 1.1em;">纸胶带手账风</div>
+                <div style="background: var(--bg-color); border: 2px dashed var(--border-color); border-radius: 6px; height: 90px; display: flex; align-items:center; padding: 10px; justify-content:center;">
+                    <div style="background: #fdf5e6; color: #333; padding: 6px 12px; border-radius: 2px; box-shadow: 2px 3px 6px rgba(0,0,0,0.1); position: relative; font-weight: bold; font-size: 0.9em;">
+                        <div style="position: absolute; top: -5px; left: 50%; transform: translateX(-50%) rotate(-2deg); width: 30px; height: 10px; background: rgba(255,255,255,0.6); border: 1px solid rgba(0,0,0,0.1);"></div>
+                        一张小纸条
+                    </div>
+                </div>
+                <button class="outline-btn" style="margin: 0; padding: 10px;" onclick="applyBubbleStyle('tape')">应用此气泡</button>
+            </div>
+
+            <!-- 3. 毛玻璃拟物风 -->
+            <div style="background: var(--panel-bg); border: 3px solid var(--border-color); border-radius: 8px; padding: 15px; box-shadow: 4px 4px 0 var(--border-color); display: flex; flex-direction: column; gap: 12px;">
+                <div style="font-weight: 900; font-size: 1.1em;">半透明毛玻璃</div>
+                <div style="background: linear-gradient(135deg, #a1c4fd, #c2e9fb); border: 2px dashed var(--border-color); border-radius: 6px; height: 90px; display: flex; align-items:center; padding: 10px; justify-content:center;">
+                    <div style="background: rgba(240, 248, 255, 0.4); color: #333; padding: 6px 12px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.5); box-shadow: 0 4px 15px rgba(0,0,0,0.05); font-weight: bold; font-size: 0.9em;">
+                        透亮的高级感 ✨
+                    </div>
+                </div>
+                <button class="outline-btn" style="margin: 0; padding: 10px;" onclick="applyBubbleStyle('glass')">应用此气泡</button>
+            </div>
+
+            <!-- 4. 立体果冻风 -->
+            <div style="background: var(--panel-bg); border: 3px solid var(--border-color); border-radius: 8px; padding: 15px; box-shadow: 4px 4px 0 var(--border-color); display: flex; flex-direction: column; gap: 12px;">
+                <div style="font-weight: 900; font-size: 1.1em;">立体圆润果冻</div>
+                <div style="background: var(--bg-color); border: 2px dashed var(--border-color); border-radius: 6px; height: 90px; display: flex; align-items:center; padding: 10px; justify-content:center;">
+                    <div style="background: linear-gradient(135deg, #fffafa, #f2f2f2); color: #444; padding: 8px 14px; border-radius: 20px; box-shadow: inset 0 4px 6px rgba(255,255,255,0.8), 0 4px 8px rgba(0,0,0,0.08); font-weight: bold; font-size: 0.9em;">
+                        Q弹Q弹的~
+                    </div>
+                </div>
+                <button class="outline-btn" style="margin: 0; padding: 10px;" onclick="applyBubbleStyle('jelly')">应用此气泡</button>
+            </div>
+
+            <!-- 5. 极简反差风 -->
+            <div style="background: var(--panel-bg); border: 3px solid var(--border-color); border-radius: 8px; padding: 15px; box-shadow: 4px 4px 0 var(--border-color); display: flex; flex-direction: column; gap: 12px;">
+                <div style="font-weight: 900; font-size: 1.1em;">极简黑白反差</div>
+                <div style="background: var(--bg-color); border: 2px dashed var(--border-color); border-radius: 6px; height: 90px; display: flex; align-items:center; padding: 10px; justify-content:center;">
+                    <div style="background: #000; color: #fff; padding: 8px 14px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); font-weight: bold; font-size: 0.9em; letter-spacing: 1px;">
+                        LESS IS MORE
+                    </div>
+                </div>
+                <button class="outline-btn" style="margin: 0; padding: 10px;" onclick="applyBubbleStyle('minimalist')">应用此气泡</button>
+            </div>
+
+            <!-- 6. 空心描边感 -->
+            <div style="background: var(--panel-bg); border: 3px solid var(--border-color); border-radius: 8px; padding: 15px; box-shadow: 4px 4px 0 var(--border-color); display: flex; flex-direction: column; gap: 12px;">
+                <div style="font-weight: 900; font-size: 1.1em;">杂志空心线框</div>
+                <div style="background: var(--bg-color); border: 2px dashed var(--border-color); border-radius: 6px; height: 90px; display: flex; align-items:center; padding: 10px; justify-content:center;">
+                    <div style="background: transparent; border: 2px solid #333; color: #333; padding: 8px 14px; border-radius: 16px; box-shadow: 3px 3px 0 rgba(0,0,0,0.05); font-weight: 900; font-size: 0.9em;">
+                        克制的排版艺术
+                    </div>
+                </div>
+                <button class="outline-btn" style="margin: 0; padding: 10px;" onclick="applyBubbleStyle('outline')">应用此气泡</button>
+            </div>
+
+            <!-- 7. 马卡龙渐变 -->
+            <div style="background: var(--panel-bg); border: 3px solid var(--border-color); border-radius: 8px; padding: 15px; box-shadow: 4px 4px 0 var(--border-color); display: flex; flex-direction: column; gap: 12px;">
+                <div style="font-weight: 900; font-size: 1.1em;">落日马卡龙渐变</div>
+                <div style="background: var(--bg-color); border: 2px dashed var(--border-color); border-radius: 6px; height: 90px; display: flex; align-items:center; padding: 10px; justify-content:center;">
+                    <div style="background: linear-gradient(120deg, #ffd194 0%, #70e1f5 100%); color: #444; padding: 8px 14px; border-radius: 18px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); font-weight: bold; font-size: 0.9em;">
+                        很柔和的梦境色系
+                    </div>
+                </div>
+                <button class="outline-btn" style="margin: 0; padding: 10px;" onclick="applyBubbleStyle('macaron')">应用此气泡</button>
+            </div>
+
+            <!-- 8. 胖胖云朵风 -->
+            <div style="background: var(--panel-bg); border: 3px solid var(--border-color); border-radius: 8px; padding: 15px; box-shadow: 4px 4px 0 var(--border-color); display: flex; flex-direction: column; gap: 12px;">
+                <div style="font-weight: 900; font-size: 1.1em;">胖胖涂鸦云朵</div>
+                <div style="background: var(--bg-color); border: 2px dashed var(--border-color); border-radius: 6px; height: 90px; display: flex; align-items:center; padding: 10px; justify-content:center;">
+                    <div style="background: #ffeb3b; border: 3px solid #000; color: #000; padding: 12px 18px; border-radius: 24px; box-shadow: 4px 4px 0 #000; font-weight: 900; font-size: 0.9em;">
+                        超圆润的大块头！
+                    </div>
+                </div>
+                <button class="outline-btn" style="margin: 0; padding: 10px;" onclick="applyBubbleStyle('cloud')">应用此气泡</button>
+            </div>
+
+            <!-- 9. 流体不规则风 -->
+            <div style="background: var(--panel-bg); border: 3px solid var(--border-color); border-radius: 8px; padding: 15px; box-shadow: 4px 4px 0 var(--border-color); display: flex; flex-direction: column; gap: 12px;">
+                <div style="font-weight: 900; font-size: 1.1em;">流体不规则形状</div>
+                <div style="background: var(--bg-color); border: 2px dashed var(--border-color); border-radius: 6px; height: 90px; display: flex; align-items:center; padding: 10px; justify-content:center;">
+                    <div style="background: #a3c4f3; color: #fff; padding: 12px 18px; border-radius: 50% 40% 60% 30% / 40% 50% 30% 60%; box-shadow: 2px 4px 10px rgba(0,0,0,0.1); font-weight: 900; font-size: 0.9em;">
+                        随性自然的液体感~
+                    </div>
+                </div>
+                <button class="outline-btn" style="margin: 0; padding: 10px;" onclick="applyBubbleStyle('fluid')">应用此气泡</button>
+            </div>
+
+            <!-- 10. 撕纸边缘风 -->
+            <div style="background: var(--panel-bg); border: 3px solid var(--border-color); border-radius: 8px; padding: 15px; box-shadow: 4px 4px 0 var(--border-color); display: flex; flex-direction: column; gap: 12px;">
+                <div style="font-weight: 900; font-size: 1.1em;">文艺撕纸手作</div>
+                <div style="background: var(--bg-color); border: 2px dashed var(--border-color); border-radius: 6px; height: 90px; display: flex; align-items:center; padding: 10px; justify-content:center;">
+                    <div style="background: #f4e8c1; color: #5c4a45; padding: 10px 16px; border-radius: 2px; clip-path: polygon(0% 4%, 100% 0%, 98% 95%, 2% 100%); box-shadow: 3px 3px 0 rgba(0,0,0,0.1); font-weight: 900; font-size: 0.9em; transform: rotate(-1deg);">
+                        带点残缺的艺术
+                    </div>
+                </div>
+                <button class="outline-btn" style="margin: 0; padding: 10px;" onclick="applyBubbleStyle('torn')">应用此气泡</button>
+            </div>
+            
+            <!-- 11. 极光渐变风 -->
+            <div style="background: var(--panel-bg); border: 3px solid var(--border-color); border-radius: 8px; padding: 15px; box-shadow: 4px 4px 0 var(--border-color); display: flex; flex-direction: column; gap: 12px;">
+                <div style="font-weight: 900; font-size: 1.1em;">幻彩极光渐变</div>
+                <div style="background: var(--bg-color); border: 2px dashed var(--border-color); border-radius: 6px; height: 90px; display: flex; align-items:center; padding: 10px; justify-content:center;">
+                    <div style="background: linear-gradient(45deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%); color: #444; padding: 8px 14px; border-radius: 12px 12px 12px 2px; box-shadow: 0 4px 15px rgba(255,154,158,0.3); font-weight: 900; font-size: 0.9em;">
+                        浪漫温柔的颜色
+                    </div>
+                </div>
+                <button class="outline-btn" style="margin: 0; padding: 10px;" onclick="applyBubbleStyle('aurora')">应用此气泡</button>
+            </div>
+
         </div>
     </div>
 </div>
@@ -3001,7 +3123,11 @@ document.documentElement.style.setProperty('--bg-pattern', currentSettings.showD
                 document.body.style.backgroundSize = 'var(--bg-size)';
             }
 
-            document.getElementById('customBubbleCss').innerHTML = currentSettings.bubbleCss ? `.bubble { ${currentSettings.bubbleCss} }` : '';
+                        document.getElementById('customBubbleCss').innerHTML = currentSettings.bubbleCss ? `.bubble { ${currentSettings.bubbleCss} }` : '';
+            // 自动加载预设的气泡样式，叠加进去
+            if (currentSettings.bubblePresetCss) {
+                document.getElementById('customBubbleCss').innerHTML += `\n${currentSettings.bubblePresetCss}`;
+            }
             document.getElementById('customThemeCss').innerHTML = currentSettings.themeCss ? currentSettings.themeCss : '';
     document.body.classList.remove('theme-wechat', 'theme-imessage');
     if (currentSettings.themeStyle === 'wechat') {
@@ -7702,6 +7828,139 @@ function renderHeaderLayout() {
             <div class="header-sub">ONLINE</div>
         `;
     }
+}
+
+window.applyBubbleStyle = async function(styleId) {
+    // 终极绝杀：带上 #chatContainer 的最高权限，直接碾压任何主题的颜色和小尾巴
+    const killThemeTail = `
+        #chatContainer .yume .bubble::before, #chatContainer .yume .bubble::after,
+        #chatContainer .user .bubble::before, #chatContainer .user .bubble::after {
+            display: none !important; content: none !important; box-shadow: none !important; border: none !important; background: transparent !important;
+        }
+    `;
+
+    let css = '';
+    switch(styleId) {
+        case 'tape':
+            css = killThemeTail + `
+                #chatContainer .bubble { border: none !important; border-radius: 2px !important; box-shadow: 2px 3px 6px rgba(0,0,0,0.1) !important; position: relative !important; overflow: visible !important; }
+                #chatContainer .bubble::before { content: '' !important; display: block !important; position: absolute !important; top: -5px !important; left: 50% !important; transform: translateX(-50%) rotate(-2deg) !important; width: 40px !important; height: 12px !important; background: rgba(255,255,255,0.6) !important; border: 1px solid rgba(0,0,0,0.1) !important; z-index: 1 !important; box-shadow: 0 1px 2px rgba(0,0,0,0.05) !important; }
+                [data-theme="dark"] #chatContainer .bubble::before { background: rgba(255,255,255,0.2) !important; border-color: rgba(255,255,255,0.1) !important; }
+                #chatContainer .yume .bubble { background: #fdf5e6 !important; color: #333 !important; }
+                #chatContainer .user .bubble { background: #e6f2fd !important; color: #333 !important; }
+                [data-theme="dark"] #chatContainer .yume .bubble { background: #3a3226 !important; color: #eee !important; }
+                [data-theme="dark"] #chatContainer .user .bubble { background: #26333a !important; color: #eee !important; }
+            `;
+            break;
+        case 'glass':
+            css = killThemeTail + `
+                #chatContainer .bubble { border: 1px solid rgba(255,255,255,0.4) !important; border-radius: 12px !important; backdrop-filter: blur(10px) !important; -webkit-backdrop-filter: blur(10px) !important; box-shadow: 0 4px 15px rgba(0,0,0,0.05) !important; }
+                #chatContainer .yume .bubble { background: rgba(255, 255, 255, 0.65) !important; color: #333 !important; }
+                #chatContainer .user .bubble { background: rgba(240, 248, 255, 0.65) !important; color: #333 !important; }
+                [data-theme="dark"] #chatContainer .yume .bubble { background: rgba(50, 50, 50, 0.6) !important; color: #eee !important; border-color: rgba(255,255,255,0.1) !important;}
+                [data-theme="dark"] #chatContainer .user .bubble { background: rgba(60, 70, 80, 0.6) !important; color: #eee !important; border-color: rgba(255,255,255,0.1) !important;}
+            `;
+            break;
+        case 'jelly':
+            css = killThemeTail + `
+                #chatContainer .bubble { border: none !important; border-radius: 20px !important; box-shadow: inset 0 4px 6px rgba(255,255,255,0.7), 0 4px 8px rgba(0,0,0,0.06) !important; font-weight: bold !important; }
+                #chatContainer .yume .bubble { background: linear-gradient(135deg, #fffafa, #f2f2f2) !important; color: #444 !important; }
+                #chatContainer .user .bubble { background: linear-gradient(135deg, #e0f7fa, #d1eff5) !important; color: #333 !important; }
+                [data-theme="dark"] #chatContainer .bubble { box-shadow: inset 0 2px 4px rgba(255,255,255,0.1), 0 4px 8px rgba(0,0,0,0.3) !important; }
+                [data-theme="dark"] #chatContainer .yume .bubble { background: linear-gradient(135deg, #444, #333) !important; color: #ddd !important; }
+                [data-theme="dark"] #chatContainer .user .bubble { background: linear-gradient(135deg, #2b454c, #1a2f35) !important; color: #eee !important; }
+            `;
+            break;
+        case 'minimalist':
+            css = killThemeTail + `
+                #chatContainer .bubble { border: none !important; border-radius: 12px !important; box-shadow: 0 4px 10px rgba(0,0,0,0.1) !important; }
+                #chatContainer .yume .bubble { background: #fff !important; color: #111 !important; }
+                #chatContainer .user .bubble { background: #111 !important; color: #fff !important; }
+                [data-theme="dark"] #chatContainer .yume .bubble { background: #222 !important; color: #ddd !important; }
+                [data-theme="dark"] #chatContainer .user .bubble { background: #ddd !important; color: #111 !important; }
+            `;
+            break;
+        case 'outline':
+            css = killThemeTail + `
+                #chatContainer .bubble { background: transparent !important; border: 2px solid #333 !important; border-radius: 16px !important; box-shadow: 3px 3px 0 rgba(0,0,0,0.05) !important; font-weight: 900 !important; }
+                #chatContainer .yume .bubble { color: #555 !important; border-color: #aaa !important; }
+                #chatContainer .user .bubble { color: #333 !important; border-color: #333 !important; }
+                [data-theme="dark"] #chatContainer .bubble { box-shadow: 3px 3px 0 rgba(255,255,255,0.05) !important; }
+                [data-theme="dark"] #chatContainer .yume .bubble { color: #aaa !important; border-color: #666 !important; }
+                [data-theme="dark"] #chatContainer .user .bubble { color: #eee !important; border-color: #eee !important; }
+            `;
+            break;
+        case 'macaron':
+            css = killThemeTail + `
+                #chatContainer .bubble { border: none !important; border-radius: 18px !important; box-shadow: 0 4px 12px rgba(0,0,0,0.08) !important; color: #555 !important; }
+                #chatContainer .yume .bubble { background: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%) !important; }
+                #chatContainer .user .bubble { background: linear-gradient(120deg, #ffd194 0%, #70e1f5 100%) !important; }
+                [data-theme="dark"] #chatContainer .bubble { color: #eee !important; }
+                [data-theme="dark"] #chatContainer .yume .bubble { background: linear-gradient(120deg, #434343 0%, #282828 100%) !important; }
+                [data-theme="dark"] #chatContainer .user .bubble { background: linear-gradient(120deg, #b06ab3 0%, #4568dc 100%) !important; }
+            `;
+            break;
+        case 'cloud':
+            css = killThemeTail + `
+                #chatContainer .bubble { border: 3px solid #000 !important; border-radius: 24px !important; box-shadow: 4px 4px 0 #000 !important; font-weight: 900 !important; padding: 12px 18px !important; }
+                #chatContainer .yume .bubble { background: #fff !important; color: #000 !important; }
+                #chatContainer .user .bubble { background: #ffeb3b !important; color: #000 !important; }
+                [data-theme="dark"] #chatContainer .bubble { border: 3px solid #444 !important; box-shadow: 4px 4px 0 #444 !important; }
+                [data-theme="dark"] #chatContainer .yume .bubble { background: #222 !important; color: #eee !important; }
+                [data-theme="dark"] #chatContainer .user .bubble { background: #7a6e1a !important; color: #eee !important; }
+            `;
+            break;
+        case 'fluid':
+            css = killThemeTail + `
+                #chatContainer .bubble { border: none !important; box-shadow: 2px 4px 10px rgba(0,0,0,0.06) !important; padding: 12px 18px !important; }
+                #chatContainer .yume .bubble { background: #e0eaf5 !important; color: #4a6fa5 !important; border-radius: 30% 60% 40% 50% / 50% 30% 60% 40% !important; }
+                #chatContainer .user .bubble { background: #fcd5ce !important; color: #a25c68 !important; border-radius: 50% 40% 60% 30% / 40% 50% 30% 60% !important; }
+                [data-theme="dark"] #chatContainer .bubble { box-shadow: 0 4px 10px rgba(0,0,0,0.4) !important; }
+                [data-theme="dark"] #chatContainer .yume .bubble { background: #2c3a4f !important; color: #a8c1e8 !important; }
+                [data-theme="dark"] #chatContainer .user .bubble { background: #5a383f !important; color: #f4c0c8 !important; }
+            `;
+            break;
+        case 'torn':
+            css = killThemeTail + `
+                #chatContainer .bubble { border: none !important; border-radius: 2px !important; font-weight: 900 !important; filter: drop-shadow(2px 3px 2px rgba(0,0,0,0.08)) !important; }
+                #chatContainer .yume .bubble { background: #fdfaf6 !important; color: #5c4a45 !important; clip-path: polygon(1% 2%, 99% 0%, 97% 96%, 3% 100%) !important; transform: rotate(1deg) !important; }
+                #chatContainer .user .bubble { background: #f4e8c1 !important; color: #5c4a45 !important; clip-path: polygon(0% 4%, 100% 0%, 98% 95%, 2% 100%) !important; transform: rotate(-1deg) !important; }
+                [data-theme="dark"] #chatContainer .yume .bubble { background: #332f2c !important; color: #dfd1c5 !important; }
+                [data-theme="dark"] #chatContainer .user .bubble { background: #403621 !important; color: #e6dac3 !important; }
+            `;
+            break;
+        case 'aurora':
+            css = killThemeTail + `
+                #chatContainer .bubble { border: none !important; font-weight: 900 !important; }
+                #chatContainer .yume .bubble { background: linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%) !important; color: #fff !important; border-radius: 12px 12px 12px 2px !important; box-shadow: 0 4px 15px rgba(142,197,252,0.25) !important; }
+                #chatContainer .user .bubble { background: linear-gradient(45deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%) !important; color: #555 !important; border-radius: 12px 12px 2px 12px !important; box-shadow: 0 4px 15px rgba(255,154,158,0.25) !important; }
+                [data-theme="dark"] #chatContainer .yume .bubble { background: linear-gradient(120deg, #4b3668 0%, #2f4b68 100%) !important; color: #e0e0e0 !important; box-shadow: 0 4px 15px rgba(0,0,0,0.4) !important;}
+                [data-theme="dark"] #chatContainer .user .bubble { background: linear-gradient(45deg, #683033 0%, #634057 100%) !important; color: #e0e0e0 !important; box-shadow: 0 4px 15px rgba(0,0,0,0.4) !important;}
+            `;
+            break;
+        default:
+            css = ''; // 为空即自动退位，恢复原主题的气泡样式
+    }
+    
+    currentSettings.bubblePresetCss = css;
+    await putToDB('settings', { key: 'config', value: currentSettings });
+    
+    // 把新样式塞进去并重新刷一遍整个界面
+    document.getElementById('customBubbleCss').innerHTML = currentSettings.bubbleCss ? `.bubble { ${currentSettings.bubbleCss} }` : '';
+    if (currentSettings.bubblePresetCss) {
+        document.getElementById('customBubbleCss').innerHTML += `\n${currentSettings.bubblePresetCss}`;
+    }
+    
+    // 让切换主题时立刻重绘全部聊天记录
+    renderMessagesList(allMessagesCache.slice(-messageOffset));
+    updateAvatarPreview();
+    
+    let t = document.createElement('div');
+    t.style.cssText = 'position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:var(--text-color); color:var(--bg-color); padding:15px 25px; border-radius:8px; font-weight:900; font-size:1.1em; z-index:999999; box-shadow: 4px 4px 0 var(--border-color); opacity:0; transition:opacity 0.2s;';
+    t.innerText = styleId === 'default' ? '已恢复主题默认气泡' : '已强力替换气泡样式';
+    document.body.appendChild(t);
+    setTimeout(() => t.style.opacity = '1', 10);
+    setTimeout(() => { t.style.opacity = '0'; setTimeout(() => t.remove(), 300); }, 1500);
 }
 
     </script>

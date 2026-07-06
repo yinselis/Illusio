@@ -4635,8 +4635,9 @@ msgDiv.className = `message ${sender}${animClass}` + (isBatchMode && isNew && se
 
     if (sender === 'yume') {
         const cName = extraMsgData && extraMsgData.charName ? extraMsgData.charName : currentSettings.charName;
-        const cAvatar = extraMsgData && extraMsgData.avatarUrl !== undefined ? extraMsgData.avatarUrl : currentSettings.avatarUrl;
-        const cFrame = extraMsgData && extraMsgData.frameUrl !== undefined ? extraMsgData.frameUrl : currentSettings.frameUrl;
+let matchC = charactersList.find(c => c.name === cName);
+const cAvatar = matchC ? matchC.avatarUrl : (extraMsgData && extraMsgData.avatarUrl !== undefined ? extraMsgData.avatarUrl : currentSettings.avatarUrl);
+const cFrame = matchC ? matchC.frameUrl : (extraMsgData && extraMsgData.frameUrl !== undefined ? extraMsgData.frameUrl : currentSettings.frameUrl);
 
         const yNameChar = (cName && cName.length > 0) ? cName.charAt(0) : '梦';
         if (cAvatar) { avatarHtml = `<div class="avatar" style="background-image: url(${cAvatar}); color: transparent; ${radiusStyle}"></div>`; } 

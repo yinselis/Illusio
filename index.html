@@ -1324,9 +1324,127 @@ body.theme-wechat .load-more, body.theme-imessage .load-more {
     letter-spacing: 1px !important;
 }
 
+/* ================= Jelly Pink 果冻少女粉主题 (修复版) ================= */
+body.theme-pink {
+    --bg-color: #fff0f3 !important;
+    /* 核心修复 1：改用变量覆盖，这样如果上传了自定义壁纸，壁纸就能完美透出来！ */
+    --bg-pattern: linear-gradient(135deg, #ffe0e6, #fff0f3) !important;
+    --text-color: #d15b7c !important;
+    --border-color: rgba(255, 255, 255, 0.5) !important;
+    --panel-bg: rgba(255, 255, 255, 0.4) !important;
+    --bubble-bg: rgba(255, 255, 255, 0.5) !important;
+    --btn-radius: 20px !important; 
+}
+[data-theme="dark"] body.theme-pink {
+    --bg-color: #2b1a1f !important;
+    --bg-pattern: linear-gradient(135deg, #2b1a1f, #1a0f12) !important;
+    --text-color: #ffb3c6 !important;
+    --border-color: rgba(255, 180, 200, 0.15) !important;
+    --panel-bg: rgba(60, 30, 40, 0.5) !important;
+    --bubble-bg: rgba(80, 40, 50, 0.5) !important;
+}
+
+/* 核心修复 2：彻底删掉全局 * 号杀手，只针对特定部件去阴影，绝不影响字体大小和粗细！ */
+
+/* 顶栏果冻化 */
+body.theme-pink .header-center-box, body.theme-pink .top-btn {
+    background: rgba(255, 255, 255, 0.4) !important;
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    box-shadow: inset 0 2px 4px rgba(255,255,255,0.7), 0 4px 10px rgba(255, 180, 195, 0.2) !important;
+    border: 1.5px solid rgba(255,255,255,0.7) !important;
+    transform: none !important; 
+    border-radius: 24px !important;
+}
+[data-theme="dark"] body.theme-pink .header-center-box, [data-theme="dark"] body.theme-pink .top-btn {
+    background: rgba(43, 26, 31, 0.5) !important;
+    border-color: rgba(255, 180, 200, 0.15) !important;
+    box-shadow: inset 0 2px 4px rgba(255,255,255,0.05), 0 4px 10px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* 气泡果冻化核心：内发光 + 外柔影 */
+body.theme-pink .bubble { 
+    border-radius: 22px !important; 
+    border: 1.5px solid rgba(255, 255, 255, 0.7) !important;
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    box-shadow: inset 0 4px 6px rgba(255,255,255,0.8), 0 4px 12px rgba(255, 180, 195, 0.25) !important;
+}
+body.theme-pink .yume .bubble { 
+    border-bottom-left-radius: 6px !important; 
+    background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,228,232,0.6)) !important;
+}
+body.theme-pink .user .bubble { 
+    border-bottom-right-radius: 6px !important;
+    background: linear-gradient(135deg, #ff9eb5, #ff7597) !important; 
+    color: #fff !important; 
+    border: 1.5px solid rgba(255,255,255,0.4) !important;
+    box-shadow: inset 0 4px 6px rgba(255,255,255,0.4), 0 6px 12px rgba(255, 117, 151, 0.3) !important;
+}
+
+[data-theme="dark"] body.theme-pink .bubble { box-shadow: inset 0 2px 4px rgba(255,255,255,0.05), 0 4px 8px rgba(0,0,0,0.3) !important; border-color: rgba(255, 180, 200, 0.15) !important; }
+[data-theme="dark"] body.theme-pink .yume .bubble { background: linear-gradient(135deg, rgba(71,42,51,0.8), rgba(56,34,41,0.6)) !important; }
+[data-theme="dark"] body.theme-pink .user .bubble { background: linear-gradient(135deg, #a83c56, #8a2a40) !important; color: #ffe4e8 !important; border-color: rgba(255,180,200,0.2) !important;}
+
+/* 头像变圆滑 */
+body.theme-pink .avatar, body.theme-pink .avatar-container { 
+    border-radius: 50% !important; 
+    border: 1.5px solid rgba(255,255,255,0.8) !important;
+    box-shadow: 0 4px 10px rgba(255, 180, 195, 0.3) !important;
+}
+[data-theme="dark"] body.theme-pink .avatar, [data-theme="dark"] body.theme-pink .avatar-container {
+    border-color: rgba(255, 180, 200, 0.15) !important;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* 底栏果冻化：悬浮药丸 + 高级半透明毛玻璃 */
+body.theme-pink .input-wrapper { background: transparent !important; border: none !important; }
+body.theme-pink .input-top-tag { display: none !important; } /* 隐藏硬核黑边标签 */
+body.theme-pink .input-area { 
+    border-radius: 30px !important; padding: 6px 8px !important; 
+    background: rgba(255, 255, 255, 0.5) !important;
+    backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+    border: 1.5px solid rgba(255, 255, 255, 0.7) !important;
+    box-shadow: inset 0 2px 6px rgba(255,255,255,0.7), 0 8px 24px rgba(255, 180, 195, 0.2) !important;
+    margin-bottom: 5px !important;
+}
+[data-theme="dark"] body.theme-pink .input-area {
+    background: rgba(43, 26, 31, 0.6) !important;
+    border-color: rgba(255, 180, 200, 0.15) !important;
+    box-shadow: inset 0 2px 4px rgba(255,255,255,0.05), 0 8px 24px rgba(0, 0, 0, 0.4) !important;
+}
+body.theme-pink .main-input { background: transparent !important; border: none !important; }
+body.theme-pink .send-btn { 
+    border-radius: 24px !important; 
+    background: linear-gradient(135deg, #ff9eb5, #ff7597) !important; 
+    color: #fff !important; 
+    padding: 8px 18px !important; 
+    border: 1.5px solid rgba(255,255,255,0.3) !important;
+    box-shadow: inset 0 2px 4px rgba(255,255,255,0.5), 0 4px 10px rgba(255, 117, 151, 0.3) !important; 
+}
+[data-theme="dark"] body.theme-pink .send-btn { 
+    background: linear-gradient(135deg, #a83c56, #8a2a40) !important; 
+    box-shadow: inset 0 2px 4px rgba(255,255,255,0.1), 0 4px 10px rgba(0, 0, 0, 0.3) !important;
+    border-color: rgba(255,180,200,0.2) !important;
+}
+
+/* 弹窗果冻化 */
+body.theme-pink .modal-content {
+    background: rgba(255, 255, 255, 0.75) !important;
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border: 1.5px solid rgba(255, 255, 255, 0.8) !important;
+    box-shadow: 0 10px 30px rgba(255, 180, 195, 0.25) !important;
+    border-radius: 24px !important;
+}
+[data-theme="dark"] body.theme-pink .modal-content { 
+    background: rgba(43, 26, 31, 0.75) !important; 
+    border-color: rgba(255, 180, 200, 0.15) !important; 
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5) !important;
+}
+
     </style>
 </head>
 <body>
+
+<audio id="keepAliveAudio" src="silence.mp3" loop playsinline style="display:none;"></audio>
 
 <div id="splashScreen">
     <div class="premium-container">
@@ -1656,6 +1774,15 @@ body.theme-wechat .load-more, body.theme-imessage .load-more {
     <label>显示侧边栏</label>
     <label class="switch">
         <input type="checkbox" id="showSideToolbarInput" checked>
+        <span class="slider"></span>
+    </label>
+</div>
+
+<!-- 新增：保活开关 -->
+<div class="setting-row">
+    <label>后台保活</label>
+    <label class="switch">
+        <input type="checkbox" id="enableKeepAliveInput" onchange="toggleKeepAlive()">
         <span class="slider"></span>
     </label>
 </div>
@@ -2265,13 +2392,12 @@ body.theme-wechat .load-more, body.theme-imessage .load-more {
     <!-- 迷你预览图 -->
     <div style="background: var(--bg-color); border: 2px dashed var(--border-color); border-radius: 6px; height: 140px; display: flex; justify-content: center; align-items: center; position: relative; padding: 10px;">
         <div style="width: 100%; height: 100%; background: var(--panel-bg); border: 3px solid var(--border-color); border-radius: 16px; padding: 12px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 4px 4px 0 var(--border-color);">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <div style="display: flex; align-items: center; gap: 8px;">
+            <div style="display: flex; justify-content: space-around; align-items: flex-start;">
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
                     <div style="width: 38px; height: 38px; border-radius: 50%; border: 2px solid var(--border-color); font-size: 14px; display:flex; justify-content:center; align-items:center; font-weight:900;">梦</div>
                     <span style="font-size:10px; font-weight:900;">TA</span>
                 </div>
-                <div style="flex: 1; height: 2px; background: repeating-linear-gradient(to right, var(--border-color) 0, var(--border-color) 4px, transparent 4px, transparent 8px); opacity: 0.3; margin: 0 10px;"></div>
-                <div style="display: flex; align-items: center; gap: 8px; flex-direction: row-reverse;">
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
                     <div style="width: 38px; height: 38px; border-radius: 50%; border: 2px solid var(--border-color); font-size: 14px; display:flex; justify-content:center; align-items:center; font-weight:900;">我</div>
                     <span style="font-size:10px; font-weight:900;">我</span>
                 </div>
@@ -2406,6 +2532,26 @@ body.theme-wechat .load-more, body.theme-imessage .load-more {
         </div>
     </div>
     <button class="outline-btn" style="margin: 0; padding: 10px;" onclick="applyThemeStyle('imessage')">一键套用</button>
+</div>
+
+<!-- Sweet Pink 甜心少女粉主题 -->
+<div style="background: var(--panel-bg); border: 3px solid var(--border-color); border-radius: 8px; padding: 15px; box-shadow: 4px 4px 0 var(--border-color); display: flex; flex-direction: column; gap: 12px; margin-top: 15px;">
+    <div style="font-weight: 900; font-size: 1.1em; display:flex; justify-content:space-between; align-items:center;">
+        <span>Sweet Pink 少女粉</span>
+        <span style="font-size: 0.7em; background: #ff7597; color: #fff; padding: 2px 6px; border-radius: 4px; font-style: italic;">CUTE</span>
+    </div>
+    <div style="background: #fff0f3; background-image: radial-gradient(circle, #ffccd5 2px, transparent 2.5px); background-size: 14px 14px; border: 2px dashed #ffb3c6; border-radius: 6px; height: 160px; padding: 10px; display: flex; flex-direction: column; gap: 10px;">
+        <div style="display:flex; gap:8px;">
+            <div style="width:28px;height:28px;border:2px solid #ffb3c6;border-radius:50%;background:#ffffff;box-shadow:2px 2px 0 #ffb3c6;"></div>
+            <div style="background:#ffe4e8;color:#704751;border:2px solid #ffb3c6;border-radius:20px 20px 20px 4px;padding:6px 10px;font-weight:900;box-shadow:2px 2px 0 #ffb3c6;">今天也要开心鸭！🌸</div>
+        </div>
+        <div style="display:flex; gap:8px; align-self:flex-end; flex-direction:row-reverse;">
+            <div style="width:28px;height:28px;border:2px solid #ff7597;border-radius:50%;background:#ff7597;box-shadow:-2px 2px 0 #ffb3c6;"></div>
+            <div style="background:#ff7597;color:#fff;border:2px solid #ff7597;border-radius:20px 20px 4px 20px;padding:6px 10px;font-weight:900;box-shadow:-2px 2px 0 #ffb3c6;">贴贴！(≧∇≦)ﾉ</div>
+        </div>
+        <div style="margin-top:auto; background:#ffffff; border:2px solid #ffb3c6; border-radius:30px; height:24px; box-shadow:0 2px 0 #ffb3c6;"></div>
+    </div>
+    <button class="outline-btn" style="margin: 0; padding: 10px; color: #ff7597; border-color: #ffb3c6;" onclick="applyThemeStyle('pink')">一键套用</button>
 </div>
 
         </div>
@@ -2983,8 +3129,8 @@ body.theme-wechat .load-more, body.theme-imessage .load-more {
         let charactersList = [];
         let currentChatId = 'default';
 
-        let currentSettings = { 
-theme: "light", dataId: generateUUID(),petEnabled: "false", petSize: 100, petSpeed: 2, petRoam: "false", petIdleUrl: "", petWalkUrl: "", petDragUrl: "", charName: "TA", userName: "我", minTime: 1.0, maxTime: 3.0, readButNoReply: "false", showFloatingBall: "false", enableStats: "true", showDotBg: "true", enableCardSplicing: "false", proactiveMsgEnabled: "false", proactiveMsgTime: 5,
+                let currentSettings = { 
+theme: "light", dataId: generateUUID(), enableKeepAlive: "false", petEnabled: "false", petSize: 100, petSpeed: 2, petRoam: "false", petIdleUrl: "", petWalkUrl: "", petDragUrl: "", charName: "TA", userName: "我", minTime: 1.0, maxTime: 3.0, readButNoReply: "false", showFloatingBall: "false", enableStats: "true", showDotBg: "true", enableCardSplicing: "false", proactiveMsgEnabled: "false", proactiveMsgTime: 5,
     avatarShape: "square",
             avatarUrl: "", frameUrl: "", frameX: 50, frameY: 50, frameScale: 100, 
             userAvatarUrl: "", userFrameUrl: "", userFrameX: 50, userFrameY: 50, userFrameScale: 100, 
@@ -2992,7 +3138,32 @@ theme: "light", dataId: generateUUID(),petEnabled: "false", petSize: 100, petSpe
             activeReplyGroups: [],
             showTimestamp: "true", timestampPos: "pos-bottom-right", readStyle: "text"
         }; 
-        let isReplying = false;
+                let isReplying = false;
+
+        // ====== 新增：后台保活逻辑 ======
+        window.toggleKeepAlive = async function() {
+            const isEnabled = document.getElementById('enableKeepAliveInput').checked;
+            currentSettings.enableKeepAlive = isEnabled ? "true" : "false";
+            await putToDB('settings', { key: 'config', value: currentSettings });
+            applyKeepAlive();
+        };
+
+        function applyKeepAlive() {
+            const audio = document.getElementById('keepAliveAudio');
+            if (!audio) return;
+            if (currentSettings.enableKeepAlive === "true") {
+                audio.play().catch(e => {
+                    // 手机浏览器必须要有一次触摸才能播放音频，如果被拦截，就等用户点屏幕时悄悄播放
+                    const playOnInteract = () => {
+                        audio.play();
+                        document.removeEventListener('touchstart', playOnInteract);
+                    };
+                    document.addEventListener('touchstart', playOnInteract, { once: true });
+                });
+            } else {
+                audio.pause();
+            }
+        }
         let isBatchMode = false; // 连发模式状态变量
         let customPokeList = []; // 存储自定义戳一戳
         
@@ -3287,11 +3458,13 @@ document.documentElement.style.setProperty('--bg-pattern', currentSettings.showD
             // 自动加载预设的底栏输入框样式
             const customInputStyle = document.getElementById('customInputCss');
             if (customInputStyle) customInputStyle.innerHTML = currentSettings.inputPresetCss || '';
-    document.body.classList.remove('theme-wechat', 'theme-imessage');
+    document.body.classList.remove('theme-wechat', 'theme-imessage', 'theme-pink');
     if (currentSettings.themeStyle === 'wechat') {
         document.body.classList.add('theme-wechat');
     } else if (currentSettings.themeStyle === 'imessage') {
         document.body.classList.add('theme-imessage');
+    } else if (currentSettings.themeStyle === 'pink') {
+        document.body.classList.add('theme-pink');
     }
         }
 
@@ -3343,6 +3516,11 @@ document.documentElement.style.setProperty('--bg-pattern', currentSettings.showD
             if (document.getElementById('enableCardSplicingInput')) document.getElementById('enableCardSplicingInput').checked = (currentSettings.enableCardSplicing === "true");
             if (document.getElementById('showFloatingBallInput')) document.getElementById('showFloatingBallInput').checked = (currentSettings.showFloatingBall === "true");
             if (document.getElementById('showSideToolbarInput')) document.getElementById('showSideToolbarInput').checked = (currentSettings.showSideToolbar !== "false");
+            // 新增：读取保活开关并立刻启动
+if (document.getElementById('enableKeepAliveInput')) {
+    document.getElementById('enableKeepAliveInput').checked = (currentSettings.enableKeepAlive === "true");
+}
+applyKeepAlive(); 
             if (document.getElementById('proactiveMsgEnabledInput')) document.getElementById('proactiveMsgEnabledInput').checked = (currentSettings.proactiveMsgEnabled === "true");
 if (document.getElementById('proactiveMsgTimeInput')) {
     document.getElementById('proactiveMsgTimeInput').value = currentSettings.proactiveMsgTime || 5;
@@ -3577,6 +3755,11 @@ function resetProactiveTimer() {
             if (document.getElementById('enableCardSplicingInput')) currentSettings.enableCardSplicing = document.getElementById('enableCardSplicingInput').checked ? "true" : "false";
             if (document.getElementById('showFloatingBallInput')) currentSettings.showFloatingBall = document.getElementById('showFloatingBallInput').checked ? "true" : "false";
             if (document.getElementById('showSideToolbarInput')) currentSettings.showSideToolbar = document.getElementById('showSideToolbarInput').checked ? "true" : "false";
+            // 新增：保存保活开关
+if (document.getElementById('enableKeepAliveInput')) {
+    currentSettings.enableKeepAlive = document.getElementById('enableKeepAliveInput').checked ? "true" : "false";
+}
+applyKeepAlive();
             if (document.getElementById('proactiveMsgEnabledInput')) currentSettings.proactiveMsgEnabled = document.getElementById('proactiveMsgEnabledInput').checked ? "true" : "false";
 if (document.getElementById('proactiveMsgTimeInput')) currentSettings.proactiveMsgTime = document.getElementById('proactiveMsgTimeInput').value;
 resetProactiveTimer(); // 保存设置后重置一下定时器
@@ -7955,7 +8138,10 @@ window.applyThemeStyle = async function(styleId) {
     // 弹窗提示
     let t = document.createElement('div');
     t.style.cssText = 'position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:var(--text-color); color:var(--bg-color); padding:15px 25px; border-radius:8px; font-weight:900; font-size:1.1em; z-index:999999; box-shadow: 4px 4px 0 var(--border-color); opacity:0; transition:opacity 0.2s;';
-    t.innerText = styleId === 'wechat' ? '已套用微信主题' : (styleId === 'imessage' ? '已套用苹果主题' : '已恢复默认主题');
+    if (styleId === 'wechat') t.innerText = '已套用微信主题';
+    else if (styleId === 'imessage') t.innerText = '已套用苹果主题';
+    else if (styleId === 'pink') t.innerText = '已套用粉色少女主题';
+    else t.innerText = '已恢复默认主题';
     document.body.appendChild(t);
     setTimeout(() => t.style.opacity = '1', 10);
     setTimeout(() => { t.style.opacity = '0'; setTimeout(() => t.remove(), 300); }, 1500);
@@ -8071,18 +8257,17 @@ function renderHeaderLayout() {
                     width: 100% !important;
                     max-width: 100% !important;
                     margin: 0 !important;
-                    padding: 18px 20px !important;
+                    padding: 18px 10px !important; /* 🌟左右内边距缩小，让头像被推得更远 */
                     background: var(--panel-bg) !important;
                     border: 4px solid var(--border-color) !important;
                     border-radius: 24px !important;
                     box-shadow: 6px 6px 0 var(--border-color) !important;
                     display: flex !important;
                     flex-direction: column !important;
-                    gap: 18px !important;
+                    gap: 15px !important; /* 上下间距微调 */
                     transform: none !important;
                 }
 
-                /* 移除背景和边框，只留SVG，间距聚拢 */
                 .board-btn {
                     width: 24px; height: 24px;
                     border-radius: 8px;
@@ -8096,29 +8281,38 @@ function renderHeaderLayout() {
                 }
                 .board-btn:active { transform: scale(0.85); opacity: 0.5; }
                 .board-btn svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+
+                /* 🌟 神仙交互：让 div 拥有真正的 Placeholder 效果，不用手动删字了 */
+                .custom-island-text:empty::before {
+                    content: '点击写下专属签名...';
+                    opacity: 0.5;
+                    pointer-events: none;
+                }
             </style>
 
-            <!-- 第一层：头像放大，名字缩小 -->
-            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+<!-- 第一层：头像彻底分开，中间加入真正的占位符文字，并且靠上对齐 -->
+            <div style="display: flex; justify-content: space-between; align-items: stretch; width: 100%;">
                 
                 <!-- 对方 -->
-                <div style="display: flex; align-items: center; gap: 12px;">
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 8px; flex-shrink: 0;">
                     <div style="width: 60px; height: 60px; border-radius: ${radiusStyle}; border: 3px solid var(--border-color); background-color: var(--bg-color); ${cAvatar} background-size: cover; background-position: center; display: flex; justify-content: center; align-items: center; font-size: 22px; font-weight: 900;">${cChar}</div>
-                    <div style="font-weight: 900; font-size: 14px; max-width: 80px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${charName}</div>
+                    <div style="font-weight: 900; font-size: 14px; max-width: 80px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center;">${charName}</div>
                 </div>
-                
-                <!-- 中间的分割点缀线 -->
-                <div style="flex: 1; height: 3px; background: repeating-linear-gradient(to right, var(--border-color) 0, var(--border-color) 6px, transparent 6px, transparent 12px); opacity: 0.2; margin: 0 15px;"></div>
+
+                <!-- 中间区域：位置靠上 -->
+                <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; margin: 0 10px; min-width: 0; padding-top: 6px;">
+                    <div class="custom-island-text" contenteditable="true" spellcheck="false" onblur="currentSettings.islandCustomText=this.innerText; putToDB('settings', { key: 'config', value: currentSettings })" style="font-weight: 900; font-size: 13px; color: var(--text-color); opacity: 0.7; text-align: center; outline: none; font-style: italic; letter-spacing: 1px; width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding: 4px; border-bottom: 2px dashed transparent; transition: 0.2s;" onfocus="this.style.borderBottom='2px dashed var(--text-color)'" onmouseout="this.style.borderBottom='2px dashed transparent'">${currentSettings.islandCustomText || ''}</div>
+                </div>
 
                 <!-- 自己 -->
-                <div style="display: flex; align-items: center; gap: 12px; flex-direction: row-reverse;">
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 8px; flex-shrink: 0;">
                     <div style="width: 60px; height: 60px; border-radius: ${radiusStyle}; border: 3px solid var(--border-color); background-color: var(--bg-color); ${uAvatar} background-size: cover; background-position: center; display: flex; justify-content: center; align-items: center; font-size: 22px; font-weight: 900;">${uChar}</div>
-                    <div style="font-weight: 900; font-size: 14px; max-width: 80px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: right;">${userName}</div>
+                    <div style="font-weight: 900; font-size: 14px; max-width: 80px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center;">${userName}</div>
                 </div>
             </div>
-
-            <!-- 第二层：修改间距变紧凑，加了往下放的 padding-top -->
-            <div style="display: flex; justify-content: center; gap: 20px; width: 100%; padding-top: 15px;">
+            
+            <!-- 第二层：5个SVG图标 -->
+            <div style="display: flex; justify-content: center; gap: 20px; width: 100%;">
                 <div class="board-btn" onclick="toggleTheme()" title="切换日月"><svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></div>
                 <div class="board-btn" onclick="openGroupModal()" title="群聊"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg></div>
                 <div class="board-btn" onclick="startPhoneCall()" title="电话"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg></div>

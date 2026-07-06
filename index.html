@@ -4648,7 +4648,8 @@ if (Math.random() < 0.03 && recentUserMsgs.length > 0) {
             setTimeout(() => { if (typeof scrollToBottom === 'function') scrollToBottom(false); }, 50);
 
             // --- 等待这个人模拟打字的时间 ---
-const waitTime = (Math.random() * (currentSettings.maxTime - currentSettings.minTime) + currentSettings.minTime) * 1000;
+// 修复后台不发消息：如果页面在后台 (document.hidden)，直接跳过打字动画瞬间发送，防止被手机系统冻结！
+const waitTime = document.hidden ? 50 : (Math.random() * (currentSettings.maxTime - currentSettings.minTime) + currentSettings.minTime) * 1000;
 await delay(waitTime);
 
 // ================= 新增：AI 5% 概率主动打电话 =================

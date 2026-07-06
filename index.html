@@ -331,7 +331,12 @@ if ('serviceWorker' in navigator) {
         .tool-icon-btn svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
 
         /* 连发模式激活时的按钮特效 (呼吸灯) */
-        .tool-icon-btn.active-batch { background: var(--text-color); color: var(--bg-color); animation: batchPulse 1.5s infinite; }
+        #chatContainer ~ .input-wrapper .tool-icon-btn.active-batch { 
+    background: var(--text-color) !important; 
+    color: var(--bg-color) !important; 
+    border-color: var(--text-color) !important;
+    animation: batchPulse 1.5s infinite !important; 
+}
         @keyframes batchPulse { 0% { box-shadow: 0 0 0 0 var(--border-color); } 70% { box-shadow: 0 0 0 4px transparent; } 100% { box-shadow: 0 0 0 0 transparent; } }
         
         /* 连发模式下的气泡特效（虚线框+微透明，表示暂存未送达） */
@@ -1654,6 +1659,23 @@ body.theme-wechat .load-more, body.theme-imessage .load-more {
         <span class="slider"></span>
     </label>
 </div>
+
+<div class="setting-row">
+    <label>允许TA主动发消息</label>
+    <label class="switch">
+        <input type="checkbox" id="proactiveMsgEnabledInput">
+        <span class="slider"></span>
+    </label>
+</div>
+<div class="form-group">
+    <label>无操作多久后主动发: <span id="proactiveMsgTimeVal">5</span> 分钟</label>
+    <input type="range" id="proactiveMsgTimeInput" min="1" max="60" step="1" value="5" oninput="document.getElementById('proactiveMsgTimeVal').innerText=this.value">
+</div>
+<div class="setting-row">
+    <label>系统弹窗通知</label>
+    <button class="outline-btn" style="width:auto; margin:0; padding:4px 12px; font-size:0.85em;" onclick="requestNotifyPerm()">请求授权</button>
+</div>
+
                 <div class="setting-divider" style="margin: 15px 0;"><span>悬浮球外观设定</span></div>
                 <div class="form-group">
                     <label>自定义图片 (不填则显示系统图标)</label>
@@ -2962,7 +2984,7 @@ body.theme-wechat .load-more, body.theme-imessage .load-more {
         let currentChatId = 'default';
 
         let currentSettings = { 
-theme: "light", dataId: generateUUID(),petEnabled: "false", petSize: 100, petSpeed: 2, petRoam: "false", petIdleUrl: "", petWalkUrl: "", petDragUrl: "", charName: "TA", userName: "我", minTime: 1.0, maxTime: 3.0, readButNoReply: "false", showFloatingBall: "false", enableStats: "true", showDotBg: "true", enableCardSplicing: "false",
+theme: "light", dataId: generateUUID(),petEnabled: "false", petSize: 100, petSpeed: 2, petRoam: "false", petIdleUrl: "", petWalkUrl: "", petDragUrl: "", charName: "TA", userName: "我", minTime: 1.0, maxTime: 3.0, readButNoReply: "false", showFloatingBall: "false", enableStats: "true", showDotBg: "true", enableCardSplicing: "false", proactiveMsgEnabled: "false", proactiveMsgTime: 5,
     avatarShape: "square",
             avatarUrl: "", frameUrl: "", frameX: 50, frameY: 50, frameScale: 100, 
             userAvatarUrl: "", userFrameUrl: "", userFrameX: 50, userFrameY: 50, userFrameScale: 100, 
@@ -3321,6 +3343,11 @@ document.documentElement.style.setProperty('--bg-pattern', currentSettings.showD
             if (document.getElementById('enableCardSplicingInput')) document.getElementById('enableCardSplicingInput').checked = (currentSettings.enableCardSplicing === "true");
             if (document.getElementById('showFloatingBallInput')) document.getElementById('showFloatingBallInput').checked = (currentSettings.showFloatingBall === "true");
             if (document.getElementById('showSideToolbarInput')) document.getElementById('showSideToolbarInput').checked = (currentSettings.showSideToolbar !== "false");
+            if (document.getElementById('proactiveMsgEnabledInput')) document.getElementById('proactiveMsgEnabledInput').checked = (currentSettings.proactiveMsgEnabled === "true");
+if (document.getElementById('proactiveMsgTimeInput')) {
+    document.getElementById('proactiveMsgTimeInput').value = currentSettings.proactiveMsgTime || 5;
+    document.getElementById('proactiveMsgTimeVal').innerText = currentSettings.proactiveMsgTime || 5;
+}
 if (document.getElementById('enableStatsInput')) document.getElementById('enableStatsInput').checked = (currentSettings.enableStats !== "false");
 if (document.getElementById('showDotBgInput')) document.getElementById('showDotBgInput').checked = (currentSettings.showDotBg !== "false");
 updateFloatingBallVisibility();
@@ -3402,7 +3429,49 @@ if (currentSettings.theme) {
 
     // 【在这里加上这句，确保刚打开网页也能显示】
     setTimeout(refreshInterpretIcon, 500);
+    resetProactiveTimer(); // 初始化启动定时器
 }
+
+// === 通知与主动发消息引擎 ===
+function requestNotifyPerm() {
+    if (!("Notification" in window)) {
+        showCustomConfirm("您的浏览器不支持通知功能", ()=>{});
+        return;
+    }
+    Notification.requestPermission().then(perm => {
+        if (perm === "granted") showCustomConfirm("通知权限已开启！后台切出时会自动弹窗。", ()=>{});
+        else showCustomConfirm("权限被拒绝，请在手机系统设置里允许浏览器的通知权限。", ()=>{});
+    });
+}
+
+function notifyUser(title, body) {
+    // 只有网页在后台(不可见)并且有权限时才弹系统通知
+    if (document.hidden && "Notification" in window && Notification.permission === "granted") {
+        let plainText = body ? body.replace(/<[^>]+>/g, '').replace(/&nbsp;/g, ' ') : '[图片/表情]';
+        if (plainText.trim() === '') plainText = '[新消息]';
+        navigator.serviceWorker.ready.then(reg => {
+            reg.showNotification(title, {
+                body: plainText,
+                icon: './icon.png', // 显示桌面图标
+                badge: './icon.png',
+                vibrate: [200, 100, 200]
+            });
+        });
+    }
+}
+
+let proactiveTimer = null;
+function resetProactiveTimer() {
+    if (proactiveTimer) clearTimeout(proactiveTimer);
+    if (currentSettings.proactiveMsgEnabled === "true") {
+        let mins = parseFloat(currentSettings.proactiveMsgTime) || 5;
+        proactiveTimer = setTimeout(() => {
+            // 时间到了，触发 TA 讲话
+            triggerYumeReply();
+        }, mins * 60 * 1000);
+    }
+}
+// =========================
 
         function openSettings() { 
             document.getElementById('settingsModal').style.display = 'flex';
@@ -3498,6 +3567,9 @@ if (currentSettings.theme) {
             if (document.getElementById('enableCardSplicingInput')) currentSettings.enableCardSplicing = document.getElementById('enableCardSplicingInput').checked ? "true" : "false";
             if (document.getElementById('showFloatingBallInput')) currentSettings.showFloatingBall = document.getElementById('showFloatingBallInput').checked ? "true" : "false";
             if (document.getElementById('showSideToolbarInput')) currentSettings.showSideToolbar = document.getElementById('showSideToolbarInput').checked ? "true" : "false";
+            if (document.getElementById('proactiveMsgEnabledInput')) currentSettings.proactiveMsgEnabled = document.getElementById('proactiveMsgEnabledInput').checked ? "true" : "false";
+if (document.getElementById('proactiveMsgTimeInput')) currentSettings.proactiveMsgTime = document.getElementById('proactiveMsgTimeInput').value;
+resetProactiveTimer(); // 保存设置后重置一下定时器
 if (document.getElementById('enableStatsInput')) currentSettings.enableStats = document.getElementById('enableStatsInput').checked ? "true" : "false";
 if (document.getElementById('showDotBgInput')) currentSettings.showDotBg = document.getElementById('showDotBgInput').checked ? "true" : "false";
 updateFloatingBallVisibility();
@@ -4203,6 +4275,14 @@ async function saveAndRenderMsg(sender, text, imgUrl, ts, isNew = true, replierO
     
     // 【在这里加上这句】
     setTimeout(refreshInterpretIcon, 400);
+    
+    // 每次有新消息都重置主动发消息的倒计时
+    resetProactiveTimer();
+    // 如果是TA发的消息，且网页在后台，尝试弹系统通知
+    if (isNew && sender !== 'user') {
+        let nTitle = (replierObj ? replierObj.name : msg.charName) || currentSettings.charName || "TA";
+        notifyUser(nTitle, text || (imgUrl ? "[图片/表情]" : ""));
+    }
 }
 
         // -------- 移植自回声(Echo)的数据库持久化+批量已读机制 --------

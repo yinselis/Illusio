@@ -5045,7 +5045,7 @@ window.aiInitiatePhoneCall = function(replier) {
     currentCallMembers = [replier];
 
     document.getElementById('phoneCallModal').style.display = 'flex';
-    document.getElementById('phoneStatusUI').innerText = 'INCOMING CALL... (正在呼叫您)';
+    document.getElementById('phoneStatusUI').innerText = 'INCOMING CALL...';
 
     document.getElementById('phoneMinBtn').style.display = 'none';
     document.getElementById('phoneAnswerBtn').style.display = 'flex'; // 显示绿色的接听按钮
@@ -5067,7 +5067,7 @@ window.aiInitiatePhoneCall = function(replier) {
     callTimeoutObj = setTimeout(async () => {
         if (isIncomingCall) {
             isIncomingCall = false;
-            document.getElementById('phoneStatusUI').innerText = 'MISSED CALL (未接通)';
+            document.getElementById('phoneStatusUI').innerText = 'MISSED CALL';
             document.getElementById('phoneAvatarUI').classList.remove('phone-pulse');
             setTimeout(() => { document.getElementById('phoneCallModal').style.display = 'none'; }, 1500);
             await saveAndRenderMsg('system', `未接来电：${replier.name}`, null, Date.now(), true);

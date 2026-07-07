@@ -3975,15 +3975,29 @@ body.theme-glass #musicLyricBar {
     <div class="modal-content" style="max-width: 320px; padding: 20px; gap: 15px;">
         <div style="text-align:center; font-weight:900; font-size:1.2em; font-style:italic;">ADVANCED EXPORT</div>
         <div style="font-size:0.85em; opacity:0.8; text-align:center;">请勾选你需要导出的数据模块：</div>
-        <div style="display:flex; flex-direction:column; gap:10px; background:var(--bg-color); padding:15px; border-radius:8px; border:3px solid var(--border-color);">
-            <label style="display:flex; align-items:center; gap:8px; font-weight:900;"><input type="checkbox" class="export-cb" value="settings" checked style="width:18px;height:18px;accent-color:var(--text-color);"> 基础设置与角色</label>
+        
+        <div style="display:flex; flex-direction:column; gap:8px; background:var(--bg-color); padding:15px; border-radius:8px; border:3px solid var(--border-color); max-height: 40vh; overflow-y: auto;">
+            <div style="font-size:0.8em; font-weight:bold; color:gray;">【基础核心数据】</div>
+            <label style="display:flex; align-items:center; gap:8px; font-weight:900;"><input type="checkbox" class="export-sub" value="config" checked style="width:18px;height:18px;accent-color:var(--text-color);"> 基础设置与界面排版</label>
+            <label style="display:flex; align-items:center; gap:8px; font-weight:900;"><input type="checkbox" class="export-sub" value="charactersList" checked style="width:18px;height:18px;accent-color:var(--text-color);"> 角色与群聊列表</label>
+            <label style="display:flex; align-items:center; gap:8px; font-weight:900;"><input type="checkbox" class="export-sub" value="modules" checked style="width:18px;height:18px;accent-color:var(--text-color);"> 附加(打卡/记账/信件/纪念日)</label>
+            
+            <div style="font-size:0.8em; font-weight:bold; color:gray; margin-top:5px;">【独立大体积数据】</div>
             <label style="display:flex; align-items:center; gap:8px; font-weight:900;"><input type="checkbox" class="export-cb" value="wordCards" checked style="width:18px;height:18px;accent-color:var(--text-color);"> 自定义字卡库</label>
             <label style="display:flex; align-items:center; gap:8px; font-weight:900;"><input type="checkbox" class="export-cb" value="messages" checked style="width:18px;height:18px;accent-color:var(--text-color);"> 聊天记录</label>
             <label style="display:flex; align-items:center; gap:8px; font-weight:900;"><input type="checkbox" class="export-cb" value="stickers" checked style="width:18px;height:18px;accent-color:var(--text-color);"> 表情包数据</label>
         </div>
-        <label style="display:flex; align-items:center; gap:8px; font-weight:900; font-size:0.85em; color:#ff4444;">
-            <input type="checkbox" id="exportThinningCb" checked style="width:16px;height:16px;accent-color:#ff4444;"> 剥离自定义字体/壁纸(防崩溃)
-        </label>
+        
+        <div style="display:flex; flex-direction:column; gap:6px; margin-top:5px;">
+            <label style="display:flex; align-items:center; gap:8px; font-weight:900; font-size:0.85em; color:#ff4444;">
+                <input type="checkbox" id="exportThinningCb" checked style="width:16px;height:16px;accent-color:#ff4444;"> 剥离全局壁纸与字体 (防崩溃)
+            </label>
+            <!-- 解决十几兆体积的关键：极致瘦身按钮 -->
+            <label style="display:flex; align-items:center; gap:8px; font-weight:900; font-size:0.85em; color:#ff4444;">
+                <input type="checkbox" id="exportNoImagesCb" style="width:16px;height:16px;accent-color:#ff4444;"> 极致瘦身 (剥离所有头像/图片)
+            </label>
+        </div>
+        
         <div style="display:flex; gap:12px; margin-top:10px;">
             <button class="outline-btn" style="flex:1; margin:0; padding:12px; border-radius:6px;" onclick="document.getElementById('advancedExportModal').style.display='none'">取消</button>
             <button class="action-btn" style="flex:1; margin:0; padding:12px; border-radius:6px; font-size:1.1em;" onclick="confirmAdvancedExport()">生成导出</button>
@@ -4765,8 +4779,6 @@ async function confirmAdvancedExport() {
     document.getElementById('advancedExportModal').style.display = 'none';
     
     let exportObj = { dataId: currentSettings.dataId };
-    const checkboxes = document.querySelectorAll('.export-cb:checked');
-    const thinning = document.getElementById('exportThinningCb').checked;
     
     let t = document.createElement('div');
     t.style.cssText = 'position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:var(--text-color); color:var(--bg-color); padding:15px 25px; border-radius:8px; font-weight:900; z-index:999999; box-shadow: 4px 4px 0 var(--border-color);';
@@ -4774,23 +4786,87 @@ async function confirmAdvancedExport() {
     document.body.appendChild(t);
 
     try {
+        // 1. 处理独立的大型数据表 (消息、字卡、表情包)
+        const checkboxes = document.querySelectorAll('.export-cb:checked');
         for (let cb of checkboxes) {
-            const key = cb.value;
-            let data = await getAllFromDB(key);
-            
-            // 数据瘦身：主动剥离庞大的 Base64 字体和壁纸
-            if (thinning && key === 'settings') {
-                data = JSON.parse(JSON.stringify(data)); // 深拷贝
-                let configItem = data.find(item => item.key === 'config');
-                if (configItem && configItem.value) {
-                    delete configItem.value.customFont;
-                    delete configItem.value.bgWallpaper;
-                }
-                // 顺带附带环境记忆
-                exportObj.currentChatId = currentChatId;
-            }
-            exportObj[key] = data;
+            exportObj[cb.value] = await getAllFromDB(cb.value);
         }
+
+        // 2. 处理 Settings 内部的核心模块 (分类导出)
+        let settingsData = await getAllFromDB('settings');
+        // 永远强行剥离庞大的网易云本地缓存，避免把存档搞崩
+        settingsData = settingsData.filter(item => item.key !== 'neteaseCacheData' && item.key !== 'neteasePlaylistDetails' && item.key !== 'cachedMusicList');
+
+        const subCbs = document.querySelectorAll('.export-sub:checked');
+        const allowedKeys = Array.from(subCbs).map(cb => cb.value);
+
+        let finalSettings = [];
+        for (let item of settingsData) {
+            if (item.key === 'config') {
+                if (allowedKeys.includes('config')) finalSettings.push(item);
+            } else if (item.key === 'charactersList' || item.key === 'currentChatId') {
+                if (allowedKeys.includes('charactersList')) finalSettings.push(item);
+            } else {
+                // 打卡、记账、信件、纪念日等全部归入附加模块
+                if (allowedKeys.includes('modules')) finalSettings.push(item);
+            }
+        }
+
+        // 3. 数据瘦身逻辑 (剥离 Base64 图片)
+        const thinning = document.getElementById('exportThinningCb').checked;
+        const noImages = document.getElementById('exportNoImagesCb')?.checked;
+
+        // 深拷贝，防止修改影响到当前正在运行的内存数据
+        finalSettings = JSON.parse(JSON.stringify(finalSettings));
+
+        // 🌟 核心改进：无论是否勾选极致瘦身，永远强行抠掉历史消息里的“冗余头像”！只保留唯一的主头像！
+        if (exportObj.messages) {
+            exportObj.messages.forEach(m => {
+                delete m.avatarUrl; // 永远干掉历史消息里的多余头像
+                delete m.frameUrl;  // 永远干掉多余头像框
+            });
+        }
+
+        let configItem = finalSettings.find(item => item.key === 'config');
+        if (configItem && configItem.value) {
+            if (thinning) {
+                delete configItem.value.customFont;
+                delete configItem.value.bgWallpaper;
+            }
+            if (noImages) {
+                // 如果勾选了极致瘦身，才清空主设置里的头像
+                delete configItem.value.avatarUrl;
+                delete configItem.value.frameUrl;
+                delete configItem.value.userAvatarUrl;
+                delete configItem.value.userFrameUrl;
+                delete configItem.value.ballImgUrl;
+                delete configItem.value.petIdleUrl;
+                delete configItem.value.petWalkUrl;
+                delete configItem.value.petDragUrl;
+                delete configItem.value.sysAnniBg;
+            }
+        }
+
+        if (noImages) {
+            // 如果勾选了极致瘦身，才清理角色列表和聊天发送的图片
+            let charsItem = finalSettings.find(item => item.key === 'charactersList');
+            if (charsItem && charsItem.value) {
+                charsItem.value.forEach(c => { c.avatarUrl = ""; c.frameUrl = ""; });
+            }
+            let anniItem = finalSettings.find(item => item.key === 'anniversaryData');
+            if (anniItem && anniItem.value) {
+                anniItem.value.forEach(a => { a.bgUrl = ""; });
+            }
+            if (exportObj.messages) {
+                exportObj.messages.forEach(m => { 
+                    if (m.imgUrl) m.imgUrl = null; // 清理聊天发的图片
+                    if (m.quote && m.quote.imgUrl) m.quote.imgUrl = null;
+                });
+            }
+        }
+
+        if (thinning && allowedKeys.includes('config')) exportObj.currentChatId = currentChatId;
+        exportObj.settings = finalSettings;
 
         const jsonString = JSON.stringify(exportObj);
         
@@ -4804,7 +4880,6 @@ async function confirmAdvancedExport() {
             URL.revokeObjectURL(url);
             t.innerText = '打包完成并触发下载！';
         } catch (err) {
-            // 被浏览器严格拦截时，走透明输入框复制逻辑
             fallbackExport(jsonString);
             t.innerText = '下载受限，已自动复制到剪贴板！请粘贴保存。';
         }
@@ -4825,8 +4900,20 @@ function importData(e) {
             showCustomConfirm("导入将覆盖本地数据，确定吗？", async () => {
                 
                 // 1. 恢复设置和各大模块数据
-                const oldConfig = await getFromDB('settings', 'config');
-                await clearDBStore('settings');
+const oldConfig = await getFromDB('settings', 'config');
+
+// 【新增：提前把本地的音乐数据保护起来】
+const oldMusicList = await getFromDB('settings', 'cachedMusicList');
+const oldNeteaseData = await getFromDB('settings', 'neteaseCacheData');
+const oldNeteaseDetails = await getFromDB('settings', 'neteasePlaylistDetails');
+
+await clearDBStore('settings');
+
+// 【新增：把保护好的音乐数据重新塞回数据库】
+if (oldMusicList) await putToDB('settings', oldMusicList);
+if (oldNeteaseData) await putToDB('settings', oldNeteaseData);
+if (oldNeteaseDetails) await putToDB('settings', oldNeteaseDetails);
+
                 if (Array.isArray(parsed.settings)) {
                     for(let item of parsed.settings) {
                         // 【安全合并机制】：遇到 config 且有旧数据时，做一层展开合并，防止丢设置
@@ -5368,13 +5455,13 @@ async function saveAndRenderMsg(sender, text, imgUrl, ts, isNew = true, replierO
     
     if (quoteData) msg.quote = quoteData;
 
-    if (replierObj) {
-        msg.charName = replierObj.name;
-        msg.avatarUrl = replierObj.avatarUrl;
-        msg.frameUrl = replierObj.frameUrl;
-    }
+if (replierObj) {
+    msg.charName = replierObj.name;
+    // 🌟 核心优化：彻底切断源头！不再把庞大的头像和头像框存进每一条聊天记录里
+    // 渲染系统会自动根据 charName 去读取唯一的那个头像，实现“全局共用”
+}
 
-    await putToDB('messages', msg);
+await putToDB('messages', msg);
     
     const container = document.getElementById('chatContainer');
     const currentDateStr = formatDate(ts);

@@ -2046,6 +2046,75 @@ body.theme-glass #musicLyricBar {
     background: rgba(0,0,0,0.3) !important;
     border-color: rgba(255,255,255,0.1) !important;
 }
+
+/* ================= 红包互动领取状态 ================= */
+/* 领取或退回后，红包变暗 */
+.red-packet-card.opened, .red-packet-card.returned {
+    opacity: 0.6;
+    filter: grayscale(20%);
+    pointer-events: none; /* 领完不能再点 */
+}
+
+/* 默认主题的底栏文字 */
+.red-packet-card.opened .rp-bottom { opacity: 0.5; }
+.red-packet-card.opened .rp-bottom::before { content: "已领取" !important; font-size: inherit !important; }
+.red-packet-card.returned .rp-bottom::before { content: "已退回" !important; font-size: inherit !important; }
+
+/* 微信主题专属已领取状态 */
+body.theme-wechat .red-packet-card.opened .rp-top { background: #fabea7 !important; }
+body.theme-wechat .red-packet-card.opened .rp-icon { color: #fabea7 !important; }
+body.theme-wechat .red-packet-card.opened .rp-bottom::before { content: "微信红包已领取" !important; color: #fabea7 !important; }
+body.theme-wechat .red-packet-card.returned .rp-bottom::before { content: "微信红包已退回" !important; color: #fabea7 !important; }
+
+/* 苹果 iMessage 专属已领取状态 */
+body.theme-imessage .red-packet-card.opened { background: #1c1c1e !important; }
+body.theme-imessage .red-packet-card.opened .rp-bottom::before { content: " Pay 已收款" !important; }
+body.theme-imessage .red-packet-card.returned .rp-bottom::before { content: " Pay 已退还" !important; }
+
+/* ================= 修复微信夜间模式底栏图标看不见 ================= */
+[data-theme="dark"] body.theme-wechat #batchModeBtn::after { 
+    content: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23999999" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="22"></line></svg>') !important; 
+    opacity: 0.8 !important;
+}
+[data-theme="dark"] body.theme-wechat button[title="发送表情"]::after { 
+    content: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23999999" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M8 14s1.5 2 4 2 4-2 4-2"></path><line x1="9" y1="9" x2="9.01" y2="9"></line><line x1="15" y1="9" x2="15.01" y2="9"></line></svg>') !important; 
+    opacity: 0.8 !important;
+}
+[data-theme="dark"] body.theme-wechat button[title="发送图片"]::after { 
+    content: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23999999" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>') !important; 
+    opacity: 0.8 !important;
+}
+
+/* ================= 解决手机自带“强制深色模式”导致的小尾巴色差 ================= */
+/* 废弃原有的边框画法，改用“背景色继承+旋转”，让手机系统强制把它和气泡当成一体 */
+
+/* 左侧 TA 气泡尾巴 */
+body.theme-wechat .yume .bubble::before {
+    border: none !important; 
+    width: 10px !important; 
+    height: 10px !important; 
+    background: inherit !important; /* 核心：完美继承气泡被系统压暗后的最终颜色 */
+    left: -4px !important; 
+    top: 14px !important;
+    transform: rotate(45deg) !important;
+    z-index: -1 !important; /* 藏在气泡下一层 */
+    border-bottom-left-radius: 2px !important; /* 微信小尾巴微微圆润 */
+    box-shadow: none !important;
+}
+
+/* 右侧 自己 气泡尾巴 */
+body.theme-wechat .user .bubble::before {
+    border: none !important; 
+    width: 10px !important; 
+    height: 10px !important; 
+    background: inherit !important; /* 同理，继承自己气泡的颜色 */
+    right: -4px !important; 
+    top: 14px !important;
+    transform: rotate(45deg) !important;
+    z-index: -1 !important;
+    border-top-right-radius: 2px !important;
+    box-shadow: none !important;
+}
 </style>
 
 </head>
@@ -5418,7 +5487,7 @@ if (extraMsgData && extraMsgData.quote) {
 }
 
 let bubbleHtml = ""; let imgLoadAttr = isNew ? 'onload="window.scrollToBottom && scrollToBottom(false)"' : '';
-let isSpecialCard = text && (text.includes('class="checkin-chat-card"') || text.includes('class="red-packet-card"') || text.includes('class="sudden-thought-card"') || text.includes('class="event-card"') || text.includes('class="music-chat-card"'));
+let isSpecialCard = text && (text.includes('checkin-chat-card') || text.includes('red-packet-card') || text.includes('sudden-thought-card') || text.includes('event-card') || text.includes('music-chat-card'));
 let bClass = isSpecialCard ? '' : 'bubble';
 
 if (text && imgUrl) { 
@@ -8136,11 +8205,13 @@ async function resetAiBalance() {
     }
 }
 
-function generateRedPacketHtml(amount, title = "大吉大利，万事如意") {
-    // 如果是空包，显示特殊文案
+// 升级版：带ID、身份和点击事件的红包生成器
+function generateRedPacketHtml(amount, title = "大吉大利，万事如意", rpId, sender, status = "") {
     let displayDesc = amount > 0 ? `金额：${parseFloat(amount).toFixed(2)} 元` : `金额：0.00 元 (空包)`;
+    let extraClass = status ? ` ${status}` : ""; // opened 或 returned
+    
     return `
-        <div class="red-packet-card">
+        <div class="red-packet-card${extraClass}" id="rp_${rpId}" onclick="handleRedPacketClick('${rpId}', '${sender}', ${amount})">
             <div class="rp-top">
                 <div class="rp-icon">¥</div>
                 <div class="rp-content">
@@ -8148,7 +8219,7 @@ function generateRedPacketHtml(amount, title = "大吉大利，万事如意") {
                     <div class="rp-desc">${displayDesc}</div>
                 </div>
             </div>
-            <div class="rp-bottom">红包</div>
+            <div class="rp-bottom"><span style="display:none;">红包</span></div>
         </div>
     `;
 }
@@ -8164,19 +8235,49 @@ async function sendRedPacketToAi() {
         return;
     }
     
-    if (!currentSettings.aiRedPacketBalance) currentSettings.aiRedPacketBalance = 0;
-    currentSettings.aiRedPacketBalance += amount;
-    await putToDB('settings', { key: 'config', value: currentSettings });
-    
     document.getElementById('redPacketModal').style.display = 'none';
     
-    const htmlStr = generateRedPacketHtml(amount, finalMemo);
+    // 生成唯一红包ID
+    const rpId = 'rp_' + Date.now();
+    const htmlStr = generateRedPacketHtml(amount, finalMemo, rpId, 'user');
     const qData = currentQuoteData; clearQuote();
-    await saveAndRenderMsg('user', htmlStr, null, Date.now(), true, null, qData);
     
+    // 1. 先把红包发出去
+    await saveAndRenderMsg('user', htmlStr, null, Date.now(), true, null, qData);
     setTimeout(() => { if (typeof scrollToBottom === 'function') scrollToBottom(true); }, 50);
     
     if (!isBatchMode) simulateReadAndReply();
+
+    // 2. 延迟 2~5 秒，模拟 TA 看到红包并做出反应
+    setTimeout(async () => {
+        const rpEl = document.getElementById('rp_' + rpId);
+        if (!rpEl || rpEl.classList.contains('opened') || rpEl.classList.contains('returned')) return;
+
+        let roll = Math.random(); // 掷骰子决定命运
+        let cName = currentSettings.charName || "TA";
+        
+        // 专属系统消息图标
+        let sysPrefix = currentSettings.themeStyle === 'wechat' ? ' ' : 'Pay | ';
+
+        if (roll < 0.45) {
+            // 【45% 概率：开心领取】
+            if (!currentSettings.aiRedPacketBalance) currentSettings.aiRedPacketBalance = 0;
+            currentSettings.aiRedPacketBalance += amount;
+            await putToDB('settings', { key: 'config', value: currentSettings });
+            
+            updateRedPacketStateUI(rpId, 'opened');
+            await saveAndRenderMsg('system', `${sysPrefix}${cName} 领取了你的红包`, null, Date.now(), true);
+            
+        } else if (roll < 0.90) {
+            // 【45% 概率：傲娇退回】
+            updateRedPacketStateUI(rpId, 'returned');
+            await saveAndRenderMsg('system', `${sysPrefix}${cName} 退回了你的红包`, null, Date.now(), true);
+            
+        } else {
+            // 【10% 概率：直接无视】
+            // 啥也不干，红包保持可点击状态
+        }
+    }, Math.random() * 3000 + 2000); 
 }
 
 // 拦截原生消息引擎：注入 AI 的 3% 发红包概率
@@ -8267,7 +8368,8 @@ if (cachedMusicList && cachedMusicList.length > 0 && Math.random() < 0.05) {
         }
         
         // 3. 渲染发送
-        const rpHtml = generateRedPacketHtml(sendAmount, rpTitle);
+        const rpId = 'rp_' + Date.now();
+        const rpHtml = generateRedPacketHtml(sendAmount, rpTitle, rpId, 'char');
         // 为了防止找不到 replier，我们直接用当前主视角的角色
         let activeChar = charactersList.find(c => c.id === currentChatId) || charactersList[0];
         
@@ -10809,6 +10911,54 @@ setTimeout(() => {
         }
     }
 }, 2000);
+
+/* ================= 拆红包与状态更新引擎 ================= */
+async function handleRedPacketClick(rpId, sender, amount) {
+    const rpEl = document.getElementById('rp_' + rpId);
+    // 如果红包已经被领过或者退回，就不起作用
+    if (!rpEl || rpEl.classList.contains('opened') || rpEl.classList.contains('returned')) return;
+
+    // 如果是你自己发的红包，还没被领取
+    if (sender === 'user') {
+        showCustomConfirm("红包已发出，正在等待对方领取哦~", ()=>{});
+        return;
+    }
+
+    // 如果是 TA 发给你的红包，你点击了！
+    if (sender === 'char' || sender === 'yume') {
+        let cName = currentSettings.charName || "TA";
+        let sysPrefix = currentSettings.themeStyle === 'wechat' ? ' ' : 'Pay | ';
+        
+        // 更新 UI 和 数据库状态
+        updateRedPacketStateUI(rpId, 'opened');
+        
+        // 弹出系统提示
+        await saveAndRenderMsg('system', `${sysPrefix}你领取了 ${cName} 的红包`, null, Date.now(), true);
+        
+        // 如果想把这个钱存进自己的记账本里（可选联动），可以直接在这里加余额，这里简单处理就是只发通知
+    }
+}
+
+// 刷新界面 UI 并永久写入数据库（防止重启后红包又变回没拆的状态）
+async function updateRedPacketStateUI(rpId, status) {
+    // 1. 改当前界面的 UI
+    const rpEl = document.getElementById('rp_' + rpId);
+    if (rpEl) {
+        rpEl.classList.add(status);
+        rpEl.onclick = null; // 移除点击事件
+    }
+    
+    // 2. 查历史记录数据库，把字符串替换掉
+    for (let i = allMessagesCache.length - 1; i >= 0; i--) {
+        let m = allMessagesCache[i];
+        if (m.text && m.text.includes(`id="rp_${rpId}"`)) {
+            // 暴力替换注入 class
+            m.text = m.text.replace('class="red-packet-card"', `class="red-packet-card ${status}"`);
+            await putToDB('messages', m);
+            break;
+        }
+    }
+}
 </script>
     
 </body>

@@ -515,9 +515,16 @@ if ('serviceWorker' in navigator) {
         /* 悬浮表情包面板样式 */
         .sticker-panel { display: none; position: absolute; bottom: 100%; left: 12px; right: 12px; margin-bottom: 0px; background: var(--panel-bg); border: 3px solid var(--border-color); border-radius: 12px 12px 0 0; box-shadow: 0 -4px 0 var(--border-color); height: 55vh; z-index: 100; flex-direction: column; overflow: hidden; }
         .sticker-grid { padding: 12px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; overflow-y: auto; flex: 1; align-content: start; }
-        .sticker-item { position: relative; border: 3px solid var(--border-color); border-radius: 6px; aspect-ratio: 1; background: var(--bg-color); cursor: pointer; overflow: hidden; box-shadow: 2px 2px 0 var(--border-color); transition: transform 0.1s; }
-        .sticker-item:active { transform: translate(1px, 1px); box-shadow: 1px 1px 0 var(--border-color); }
-        .sticker-item img { width: 100%; height: 100%; object-fit: cover; }
+        /* 修改：用 padding-bottom: 100% 强行撑开绝对的正方形，解决手机内核兼容导致的挤压问题 */
+.sticker-item { position: relative; border: 3px solid var(--border-color); border-radius: 6px; height: 0; padding-bottom: 100%; background: var(--bg-color); cursor: pointer; overflow: hidden; box-shadow: 2px 2px 0 var(--border-color); transition: transform 0.1s; }
+.sticker-item img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; }
+
+/* 新增：表情包多选模式专属样式 */
+.sticker-item .sticker-checkbox { position: absolute; top: 4px; left: 4px; width: 22px; height: 22px; z-index: 10; display: none; accent-color: var(--text-color); }
+.sticker-multi-mode .sticker-item .sticker-checkbox { display: block; }
+.sticker-multi-mode .sticker-del-btn { display: none !important; } /* 多选模式下隐藏右上角的单个删除红叉 */
+.sticker-multi-mode .sticker-item img { pointer-events: none; } /* 多选模式下点击图片变成打勾，而不是发送 */
+        .sticker-item img { width: 100%; height: 100%; object-fit: contain; }
         .sticker-del-btn { position: absolute; top: 0; right: 0; background: #ff4444; color: #fff; width: 22px; height: 22px; display: flex; justify-content: center; align-items: center; font-weight: 900; font-size: 12px; border-bottom-left-radius: 6px; border-left: 2px solid var(--border-color); border-bottom: 2px solid var(--border-color); cursor: pointer; }
 
         /* 悬浮球 */
@@ -2567,6 +2574,15 @@ body.theme-magazine .top-btn.wechat-more-btn {
                         <textarea id="stickerUrlInput" rows="1" style="flex:1; padding:8px; border:3px solid var(--border-color); border-radius:8px; font-size:0.95em; resize:none; font-weight:900; background:var(--panel-bg); color:var(--text-color); outline:none;" placeholder="粘贴图床直链导入..."></textarea>
                         <button class="action-btn" style="width:auto; padding:0 15px; font-size:0.95em; border-radius:8px; margin:0;" onclick="batchAddStickerUrls()">导入</button>
                     </div>
+                    <!-- 新增：批量管理按钮栏 -->
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-top:5px; padding-top:8px; border-top:2px dashed var(--border-color);">
+                        <span style="font-weight:900; font-size:0.8em; opacity:0.6;" id="stickerModeTip">点击表情发送</span>
+                        <div style="display:flex; gap:8px;">
+                            <button class="outline-btn" id="btnStickerMulti" style="margin:0; padding:4px 10px; font-size:0.85em; width:auto; border-radius:6px;" onclick="toggleStickerMulti()">批量管理</button>
+                            <button class="outline-btn" id="btnStickerAll" style="margin:0; padding:4px 10px; font-size:0.85em; width:auto; border-radius:6px; display:none;" onclick="selectAllStickers()">全选</button>
+                            <button class="outline-btn" id="btnStickerDel" style="margin:0; padding:4px 10px; font-size:0.85em; width:auto; border-radius:6px; display:none; background:#ff4444; color:#fff;" onclick="deleteSelectedStickers()">删选中</button>
+                        </div>
+                    </div>
                 </div>
                 <div class="sticker-grid" id="stickerGridRender" style="flex: 1; overflow-y: auto; padding-bottom:40px;"></div>
             </div>
@@ -4335,9 +4351,8 @@ body.theme-magazine .top-btn.wechat-more-btn {
     
     <script>
 /* --- main.js --- */
-const NOTICE_VERSION = "1.0"; // 更新这个数字，就能让大家重新看到公告
         
-                        const DB_NAME = 'YumeChatProDB';
+        const DB_NAME = 'YumeChatProDB';
         const DB_VERSION = 5;
         let db;
 
@@ -4488,10 +4503,7 @@ resolve();
         window.onload = async () => {
             await initDB();
             
-            // --- 检查公告版本 ---
-            if (localStorage.getItem('yume_notice_version') !== NOTICE_VERSION) {
-                document.getElementById('noticeIconBtn').style.display = 'flex';
-            }
+            
 
             setTimeout(() => {
                 const splash = document.getElementById('splashScreen');
@@ -6343,6 +6355,9 @@ window.confirmCreateNewGroup = async function(idsStr) {
             if (!isBatchMode) simulateReadAndReply();
         }
 
+        let isStickerMulti = false;
+        let selectedStickers = new Set();
+
         async function renderStickers() {
             const grid = document.getElementById('stickerGridRender');
             grid.innerHTML = '';
@@ -6354,11 +6369,83 @@ window.confirmCreateNewGroup = async function(idsStr) {
             stickers.forEach(st => {
                 const item = document.createElement('div');
                 item.className = 'sticker-item';
+                const isChecked = selectedStickers.has(st.id) ? 'checked' : '';
                 item.innerHTML = `
-                    <img src="${st.url}" onclick="sendUserSticker('${st.url}')" />
+                    <input type="checkbox" class="sticker-checkbox" ${isChecked} onchange="toggleStickerSel(${st.id}, this.checked)">
+                    <img src="${st.url}" onclick="handleStickerClick(${st.id}, '${st.url}', this)" />
                     <div class="sticker-del-btn" onclick="deleteSticker(${st.id}, event)">X</div>
                 `;
                 grid.appendChild(item);
+            });
+        }
+        
+        // 切换批量管理模式
+        function toggleStickerMulti() {
+            isStickerMulti = !isStickerMulti;
+            const grid = document.getElementById('stickerGridRender');
+            const btnMulti = document.getElementById('btnStickerMulti');
+            const btnAll = document.getElementById('btnStickerAll');
+            const btnDel = document.getElementById('btnStickerDel');
+            const tip = document.getElementById('stickerModeTip');
+
+            if (isStickerMulti) {
+                grid.classList.add('sticker-multi-mode');
+                btnMulti.innerText = "退出管理";
+                btnAll.style.display = "block";
+                btnDel.style.display = "block";
+                tip.innerText = "点击勾选表情";
+            } else {
+                grid.classList.remove('sticker-multi-mode');
+                btnMulti.innerText = "批量管理";
+                btnAll.style.display = "none";
+                btnDel.style.display = "none";
+                tip.innerText = "点击表情发送";
+                selectedStickers.clear(); // 退出时清空选中
+                renderStickers();
+            }
+        }
+
+        // 处理点击事件（多选模式打勾，普通模式发送）
+        function handleStickerClick(id, url, imgEl) {
+            if (isStickerMulti) {
+                const cb = imgEl.parentElement.querySelector('.sticker-checkbox');
+                cb.checked = !cb.checked;
+                toggleStickerSel(id, cb.checked);
+            } else {
+                sendUserSticker(url);
+            }
+        }
+
+        // 记录选中的表情
+        function toggleStickerSel(id, isChecked) {
+            if (isChecked) selectedStickers.add(id);
+            else selectedStickers.delete(id);
+        }
+
+        // 全选功能
+        function selectAllStickers() {
+            document.querySelectorAll('.sticker-checkbox').forEach(cb => {
+                if (!cb.checked) {
+                    cb.checked = true;
+                    const idMatch = cb.parentElement.querySelector('.sticker-del-btn').getAttribute('onclick').match(/\d+/);
+                    if (idMatch) selectedStickers.add(parseInt(idMatch[0]));
+                }
+            });
+        }
+
+        // 批量删除核心逻辑
+        async function deleteSelectedStickers() {
+            if (selectedStickers.size === 0) {
+                showCustomConfirm("请先点击勾选要删除的表情包哦！", ()=>{});
+                return;
+            }
+            showCustomConfirm(`确定要一键删除选中的 ${selectedStickers.size} 个表情包吗？`, async () => {
+                for (let id of selectedStickers) {
+                    await deleteFromDB('stickers', id);
+                }
+                selectedStickers.clear();
+                await renderStickers();
+                toggleStickerMulti(); // 删完自动退出管理模式
             });
         }
 
@@ -6409,9 +6496,16 @@ function showCustomConfirm(text, onYes) {
         async function batchAddStickerUrls() {
             const text = document.getElementById('stickerUrlInput').value.trim();
             if(!text) return;
-            // 兼容中文冒号，自动将 "：" 替换为标准英文 ":"
-            const lines = text.split('\n').map(l => l.trim().replace(/：/g, ':')).filter(l => l.length > 0 && l.startsWith('http'));
-            for(let url of lines) await putToDB('stickers', { url: url });
+            
+            const lines = text.split('\n');
+            for(let line of lines) {
+                // 正则智能提取网址：无视前面的备注文字，精准抓取链接
+                const match = line.match(/(https?:\/\/[^\s]+)/);
+                if (match && match[1]) {
+                    await putToDB('stickers', { url: match[1] });
+                }
+            }
+            
             document.getElementById('stickerUrlInput').value = '';
             await renderStickers();
         }
@@ -11229,18 +11323,7 @@ async function updateRedPacketStateUI(rpId, status) {
     }
 }
 
-/* ================= 公告系统逻辑 ================= */
-function openNoticeModal() {
-    document.getElementById('noticeModal').style.display = 'flex';
-    document.getElementById('noticeIconBtn').style.animation = 'none'; // 点开就停止跳动
-}
 
-function closeNoticeModal() {
-    document.getElementById('noticeModal').style.display = 'none';
-    document.getElementById('noticeIconBtn').style.display = 'none';
-    // 存入本地，标记已读
-    localStorage.setItem('yume_notice_version', NOTICE_VERSION);
-}
 
 /* ================= 字卡一键去重功能 ================= */
 async function removeDuplicateCards() {

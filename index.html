@@ -2316,6 +2316,411 @@ body.theme-magazine .top-btn.wechat-more-btn {
 }
 /* 暗黑模式下红点边框适配 */
 [data-theme="dark"] .notice-dot { border-color: var(--panel-bg); }
+
+/* ================= 交换日记专属 CSS ================= */
+.diary-tab-btn {
+    padding: 6px 20px;
+    font-weight: 900;
+    font-size: 0.95em;
+    border: none;
+    background: transparent;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: 0.1s;
+}
+.diary-tab-btn.active {
+    background: var(--text-color);
+    color: var(--bg-color);
+}
+
+.diary-book-card {
+    position: relative;
+    background: var(--panel-bg);
+    border: 3px solid var(--border-color);
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 4px 4px 0 var(--border-color);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    cursor: pointer;
+    transition: transform 0.1s;
+}
+.diary-book-card:active {
+    transform: translate(2px, 2px);
+    box-shadow: 0 0 0 var(--border-color);
+}
+
+/* 文件夹左侧的立体黑色小书签 */
+.diary-book-card::before {
+    content: '';
+    position: absolute;
+    top: 12px;
+    left: -3px;
+    width: 6px;
+    height: 32px;
+    background: var(--text-color);
+    border: 3px solid var(--border-color);
+    border-left: none;
+    border-radius: 0 4px 4px 0;
+}
+
+.diary-title {
+    font-size: 1.15em;
+    font-weight: 900;
+    color: var(--text-color);
+    border-bottom: 3px dashed var(--border-color);
+    padding-bottom: 8px;
+    padding-left: 10px; /* 避开书签条 */
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis;
+}
+.diary-status {
+    font-size: 0.85em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 900;
+    opacity: 0.9;
+    padding-left: 10px;
+}
+
+/* 到谁写了的标签提示 */
+.diary-turn-tag {
+    background: var(--text-color);
+    color: var(--bg-color);
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-style: italic;
+    border: 2px solid var(--border-color);
+}
+.diary-turn-tag.wait {
+    background: var(--panel-bg);
+    color: var(--text-color);
+}
+
+/* ================= 交换日记详情条目 CSS ================= */
+.diary-entry-item {
+    background: var(--panel-bg);
+    border: 3px solid var(--border-color);
+    border-radius: 8px;
+    padding: 12px 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    box-shadow: 3px 3px 0 var(--border-color);
+    cursor: pointer;
+    transition: transform 0.1s;
+}
+.diary-entry-item:active {
+    transform: translate(2px, 2px);
+    box-shadow: 0 0 0 var(--border-color);
+}
+.diary-entry-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px dashed var(--border-color);
+    padding-bottom: 6px;
+}
+.diary-entry-author {
+    font-weight: 900;
+    font-size: 1.05em;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.diary-entry-author::before {
+    content: '';
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background: var(--text-color);
+    border-radius: 50%;
+}
+.diary-entry-time {
+    font-size: 0.75em;
+    font-weight: bold;
+    opacity: 0.7;
+    font-style: italic;
+}
+.diary-entry-preview {
+    font-weight: 900;
+    font-size: 0.9em;
+    opacity: 0.8;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ================= 催更/打卡分享卡片 细节多主题适配补充 ================= */
+
+/* 1. 微信主题 (WeChat) 专属 */
+body.theme-wechat .checkin-chat-card > div > div[style*="max-width:"] {
+    font-weight: 500 !important; /* 标题去黑粗，恢复原生粗细 */
+    font-size: 15px !important;
+}
+body.theme-wechat .checkin-chat-card svg {
+    stroke-width: 1.5 !important; /* 羽毛笔图标变纤细精美 */
+    opacity: 0.6;
+}
+/* 底部的催更名言/状态文字：去斜体，变灰色 */
+body.theme-wechat .checkin-chat-card div[style*="font-style:italic"] {
+    font-style: normal !important;
+    font-weight: normal !important;
+    color: #999999 !important;
+    font-size: 13px !important;
+    margin-top: 6px !important;
+}
+[data-theme="dark"] body.theme-wechat .checkin-chat-card div[style*="font-style:italic"] { color: #888888 !important; }
+
+
+/* 2. 苹果主题 (iMessage) 专属 */
+body.theme-imessage .checkin-chat-card > div > div[style*="max-width:"] {
+    font-weight: 600 !important;
+    font-size: 15px !important;
+}
+body.theme-imessage .checkin-chat-card svg {
+    stroke-width: 2 !important; 
+    color: #8e8e93 !important; /* 苹果经典灰图标 */
+}
+/* 底部的催更名言/状态文字：去斜体，变经典灰 */
+body.theme-imessage .checkin-chat-card div[style*="font-style:italic"] {
+    font-style: normal !important;
+    font-weight: 400 !important;
+    color: #8e8e93 !important;
+    font-size: 13px !important;
+    margin-top: 6px !important;
+}
+[data-theme="dark"] body.theme-imessage .checkin-chat-card div[style*="font-style:italic"] { color: #98989d !important; }
+
+
+/* 3. 杂志线框风 (Magazine) 专属 */
+body.theme-magazine .checkin-chat-card {
+    border-radius: 0 !important;
+    border: 1px solid var(--border-color) !important;
+    box-shadow: none !important;
+}
+body.theme-magazine .checkin-chat-card span[style*="font-size:0.7em"] {
+    background: var(--text-color) !important;
+    color: var(--bg-color) !important;
+    border-radius: 0 !important;
+    font-family: 'Times New Roman', serif !important;
+    font-weight: normal !important;
+    letter-spacing: 1px !important;
+}
+body.theme-magazine .checkin-chat-card div[style*="font-style:italic"] {
+    font-family: 'Times New Roman', serif !important;
+    font-weight: normal !important;
+    letter-spacing: 1px !important;
+}
+
+/* ================= Warm Journal 温暖手账主题 (神仙创意排版版 - 完整防截断) ================= */
+body.theme-journal {
+    --bg-color: #fcf8f2 !important; 
+    --panel-bg: #ffffff !important;
+    --bubble-bg: #f5eedc !important; 
+    --border-color: #8b7355 !important; 
+    --text-color: #5c4a3d !important; 
+    --bg-pattern: repeating-linear-gradient(transparent, transparent 29px, rgba(139, 115, 85, 0.15) 29px, rgba(139, 115, 85, 0.15) 30px) !important; 
+    --btn-radius: 6px !important;
+}
+[data-theme="dark"] body.theme-journal {
+    --bg-color: #2a241f !important;
+    --panel-bg: #362e28 !important;
+    --bubble-bg: #453a32 !important;
+    --border-color: #8b7355 !important;
+    --text-color: #e6d5c3 !important;
+    --bg-pattern: repeating-linear-gradient(transparent, transparent 29px, rgba(230, 213, 195, 0.08) 29px, rgba(230, 213, 195, 0.08) 30px) !important;
+}
+
+/* 强制把手账主题下的字体改成楷体或衬线体，更有写字的感觉 */
+body.theme-journal * {
+    font-family: 'Kaiti', 'STKaiti', 'KaiTi_GB2312', serif !important;
+}
+
+/* --- 1. 顶栏全新解构：吊牌、荧光笔与胶带撕纸 --- */
+body.theme-journal .header { align-items: center !important; height: 75px !important; padding: 10px 15px !important; }
+
+/* 左侧按钮：带挂绳的牛皮纸小吊牌 */
+body.theme-journal #themeToggleBtn {
+    background: #ebdcc2 !important; border: 1px solid var(--border-color) !important; border-radius: 50% 50% 4px 4px !important; 
+    width: 32px !important; height: 38px !important; box-shadow: 2px 3px 5px rgba(0,0,0,0.15) !important;
+    transform: rotate(-10deg) !important; position: relative; margin-top: 10px !important;
+}
+[data-theme="dark"] body.theme-journal #themeToggleBtn { background: #453a32 !important; }
+body.theme-journal #themeToggleBtn::before {
+    content: ''; position: absolute; top: 4px; left: 50%; transform: translateX(-50%); width: 6px; height: 6px; 
+    border-radius: 50%; background: var(--bg-color); box-shadow: inset 1px 1px 2px rgba(0,0,0,0.3); z-index: 2;
+}
+body.theme-journal #themeToggleBtn::after {
+    content: ''; position: absolute; top: -30px; left: 50%; transform: translateX(-50%);
+    width: 1.5px; height: 30px; background: var(--border-color); opacity: 0.6;
+}
+
+/* 中间名字区：打破方框，变荧光笔高光与印章 */
+body.theme-journal .header-center-box {
+    background: transparent !important; border: none !important; box-shadow: none !important;
+    transform: none !important; padding: 0 !important; margin: 0 10px !important;
+    position: relative; overflow: visible !important; /* 彻底打破边界，允许印章盖到外面 */
+}
+body.theme-journal .header-title, body.theme-journal .header-sub { 
+    overflow: visible !important; text-overflow: clip !important; white-space: normal !important; 
+}
+body.theme-journal .header-title {
+    font-size: 1.6em !important; font-weight: 900 !important; letter-spacing: 2px !important; color: var(--text-color) !important;
+    background: linear-gradient(transparent 65%, rgba(240, 200, 100, 0.6) 65%, rgba(240, 200, 100, 0.6) 90%, transparent 90%) !important;
+    padding: 0 5px !important; display: inline-block; transform: rotate(-3deg);
+}
+[data-theme="dark"] body.theme-journal .header-title { background: linear-gradient(transparent 65%, rgba(200, 150, 50, 0.4) 65%, rgba(200, 150, 50, 0.4) 90%, transparent 90%) !important; }
+/* 在线状态：红色复古椭圆邮戳印章 (修复遮挡版) */
+body.theme-journal .header-sub {
+    position: absolute !important; right: -15px !important; bottom: 2px !important;
+    background: transparent !important; color: #cc4d4d !important;
+    border: 1.5px solid #cc4d4d !important; border-top: 1.5px solid #cc4d4d !important; border-radius: 40% !important; 
+    padding: 1px 5px !important; font-size: 0.55em !important; font-weight: 900 !important;
+    letter-spacing: 0 !important; transform: rotate(18deg) !important; opacity: 0.85; z-index: 10;
+}
+
+/* 右侧按钮：胶带贴着的撕纸碎片 */
+body.theme-journal .header-actions { flex-wrap: nowrap !important; gap: 6px !important; }
+body.theme-journal .top-btn:not(#themeToggleBtn) {
+    background: #fffdf8 !important; border: none !important; border-radius: 0 !important; box-shadow: 2px 3px 5px rgba(0,0,0,0.1) !important;
+    width: 32px !important; height: 34px !important; margin: 0 !important; position: relative; clip-path: polygon(0% 0%, 100% 4%, 95% 100%, 4% 96%) !important; 
+}
+[data-theme="dark"] body.theme-journal .top-btn:not(#themeToggleBtn) { background: #3d342d !important; }
+body.theme-journal .top-btn:not(#themeToggleBtn)::after {
+    content: ''; position: absolute; top: -2px; left: 50%; transform: translateX(-50%) rotate(-5deg); width: 22px; height: 8px; background: rgba(220, 210, 190, 0.7); z-index: 10;
+}
+body.theme-journal .top-btn:nth-child(1) { transform: translateY(4px) rotate(4deg) !important; }
+body.theme-journal .top-btn:nth-child(2) { transform: translateY(-2px) rotate(-6deg) !important; clip-path: polygon(2% 4%, 98% 0%, 100% 98%, 0% 100%) !important;}
+body.theme-journal .top-btn:nth-child(3) { transform: translateY(3px) rotate(5deg) !important; }
+body.theme-journal .top-btn:nth-child(4) { transform: translateY(-4px) rotate(-3deg) !important; clip-path: polygon(0% 2%, 100% 5%, 96% 98%, 3% 96%) !important;}
+
+
+/* --- 2. 底栏：纯正的横格便签 + 独立图钉 + 火漆印发送键 --- */
+body.theme-journal .input-wrapper { background: #ebdcc2 !important; border-top: 1px solid var(--border-color) !important; box-shadow: 0 -4px 10px rgba(0,0,0,0.03) !important; padding: 25px 15px 35px 15px !important; position: relative; }
+[data-theme="dark"] body.theme-journal .input-wrapper { background: #3d342d !important; }
+body.theme-journal .input-wrapper::before { content: ''; position: absolute; top: -5px; left: 0; right: 0; height: 10px; background-image: radial-gradient(circle, var(--bg-color) 4px, transparent 5px); background-size: 15px 15px; background-position: top center; z-index: 10; }
+body.theme-journal .input-top-tag { background: #cc4d4d !important; color: #fff !important; border: none !important; border-radius: 2px !important; transform: rotate(-3deg) translateY(-15px) !important; box-shadow: 1px 2px 4px rgba(0,0,0,0.1) !important; letter-spacing: 2px !important; padding: 4px 12px !important; }
+body.theme-journal .input-area { position: relative !important; flex-direction: column !important; align-items: stretch !important; padding: 15px !important; background: #fffdf8 !important; background-image: repeating-linear-gradient(transparent, transparent 24px, rgba(139, 115, 85, 0.15) 24px, rgba(139, 115, 85, 0.15) 25px) !important; border: 1px solid var(--border-color) !important; border-radius: 2px !important; box-shadow: 3px 4px 6px rgba(139, 115, 85, 0.15) !important; }
+[data-theme="dark"] body.theme-journal .input-area { background: #362e28 !important; }
+body.theme-journal .input-area::before { content: ''; position: absolute; top: -8px; left: 50%; transform: translateX(-50%) rotate(2deg); width: 60px; height: 16px; background: rgba(220, 210, 190, 0.8); border: 1px dashed rgba(139, 115, 85, 0.3); box-shadow: 1px 1px 2px rgba(0,0,0,0.05); z-index: 2; }
+body.theme-journal .tool-btns { position: absolute !important; top: -18px !important; left: 10px !important; gap: 8px !important; }
+body.theme-journal .tool-icon-btn { width: 32px !important; height: 32px !important; background: #f5eedc !important; border: 1px solid var(--border-color) !important; box-shadow: 2px 2px 0 rgba(139,115,85,0.2) !important; border-radius: 50% !important; }
+body.theme-journal .input-box { border: none !important; padding: 0 !important; min-height: 40px !important; }
+body.theme-journal .main-input { line-height: 25px !important; font-size: 1.1em !important; padding: 0 !important; }
+body.theme-journal .send-btn { position: absolute !important; bottom: -15px !important; right: -5px !important; width: 55px !important; height: 55px !important; min-width: 55px !important; border-radius: 50% !important; background: #cc4d4d !important; color: #fff !important; border: 2px solid #853333 !important; box-shadow: inset 0 0 5px rgba(0,0,0,0.4), 3px 4px 6px rgba(139,115,85,0.4) !important; font-size: 11px !important; font-weight: 900 !important; letter-spacing: 1px !important; transform: rotate(-10deg) !important; padding: 0 !important; display: flex !important; justify-content: center !important; align-items: center !important; font-style: normal !important; }
+[data-theme="dark"] body.theme-journal .send-btn { background: #992b2b !important; border-color: #5c1a1a !important; }
+
+
+/* --- 3. 大时间戳：半透明纸胶带！ --- */
+body.theme-journal .visual-date-divider { margin: 25px 0 !important; }
+body.theme-journal .v-time-box {
+    background: rgba(220, 210, 190, 0.65) !important; 
+    color: var(--text-color) !important;
+    border: 1px dashed var(--border-color) !important;
+    box-shadow: 2px 2px 4px rgba(0,0,0,0.05) !important;
+    padding: 6px 20px !important;
+    transform: rotate(-1.5deg) !important; /* 像随手贴上去的胶带 */
+    border-radius: 2px !important; opacity: 0.9 !important;
+    font-style: normal !important; gap: 12px !important;
+}
+[data-theme="dark"] body.theme-journal .v-time-box { background: rgba(80, 70, 60, 0.65) !important; color: #e6d5c3 !important; border-color: rgba(230, 213, 195, 0.3) !important; }
+body.theme-journal .v-time { font-size: 1.4em !important; font-weight: 900 !important; }
+body.theme-journal .v-date { font-size: 0.85em !important; opacity: 0.8 !important; }
+
+
+/* --- 4. 悬浮球 & 应用面板：蜡封与纸板清单 --- */
+body.theme-journal .floating-ball {
+    background: #cc4d4d !important; color: #fff !important;
+    border: 2px solid #853333 !important; border-radius: 50% !important;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.4), 2px 3px 5px rgba(139, 115, 85, 0.3) !important;
+    opacity: 0.9 !important;
+}
+[data-theme="dark"] body.theme-journal .floating-ball { background: #992b2b !important; border-color: #5c1a1a !important; }
+
+body.theme-journal .app-panel {
+    background: #fffdf8 !important; border: 1px solid var(--border-color) !important;
+    border-radius: 4px !important; box-shadow: 4px 5px 10px rgba(139, 115, 85, 0.15) !important;
+}
+[data-theme="dark"] body.theme-journal .app-panel { background: #362e28 !important; }
+body.theme-journal .app-panel-header {
+    background: #ebdcc2 !important; color: var(--text-color) !important;
+    border-bottom: 1px dashed var(--border-color) !important;
+    font-weight: 900 !important; letter-spacing: 2px !important; font-style: normal !important;
+}
+[data-theme="dark"] body.theme-journal .app-panel-header { background: #453a32 !important; color: #e6d5c3 !important;}
+body.theme-journal .app-icon {
+    background: #f5eedc !important; border: 1px solid var(--border-color) !important;
+    border-radius: 50% !important; /* 图标全变圆形小贴纸 */
+    box-shadow: 2px 2px 0 rgba(139, 115, 85, 0.15) !important;
+}
+[data-theme="dark"] body.theme-journal .app-icon { background: #453a32 !important; }
+
+
+/* --- 5. 侧边栏 (抽屉)：书签标签卡 --- */
+body.theme-journal .side-toolbar-content {
+    background: #fcf8f2 !important; border: 1px solid var(--border-color) !important; border-left: none !important;
+    box-shadow: 3px 4px 6px rgba(139, 115, 85, 0.15) !important; border-radius: 0 4px 4px 0 !important;
+}
+[data-theme="dark"] body.theme-journal .side-toolbar-content { background: #362e28 !important; }
+body.theme-journal .side-toolbar-btn {
+    background: #f5eedc !important; border: 1px dashed var(--border-color) !important;
+    border-radius: 50% !important; box-shadow: 1px 2px 0 rgba(139, 115, 85, 0.15) !important;
+}
+[data-theme="dark"] body.theme-journal .side-toolbar-btn { background: #453a32 !important; }
+body.theme-journal .side-toolbar-handle {
+    background: var(--border-color) !important; color: #fcf8f2 !important;
+    border: 1px solid var(--border-color) !important; border-left: none !important; border-radius: 0 4px 4px 0 !important;
+}
+
+
+/* --- 6. 聊天气泡与其他卡片手账化 --- */
+body.theme-journal .bubble { border: 1px solid var(--border-color) !important; box-shadow: 2px 3px 0 rgba(139, 115, 85, 0.15) !important; }
+body.theme-journal .yume .bubble { border-radius: 2px 16px 16px 16px !important; }
+body.theme-journal .user .bubble { border-radius: 16px 2px 16px 16px !important; }
+body.theme-journal .yume .bubble::before, body.theme-journal .yume .bubble::after, body.theme-journal .user .bubble::before, body.theme-journal .user .bubble::after { display: none !important; }
+
+/* 日记催更卡片：纸胶带便签 + 红色印章 */
+body.theme-journal .checkin-chat-card { background: #fffcf5 !important; border: 1px solid rgba(139, 115, 85, 0.4) !important; border-radius: 2px !important; box-shadow: 2px 3px 5px rgba(0,0,0,0.06), inset 0 0 15px rgba(139,115,85,0.03) !important; position: relative; padding: 15px 12px !important; transform: rotate(1deg) !important; color: var(--text-color) !important; }
+[data-theme="dark"] body.theme-journal .checkin-chat-card { background: #3d342d !important; }
+body.theme-journal .checkin-chat-card::before { content: ''; position: absolute; top: -6px; left: 50%; transform: translateX(-50%) rotate(-3deg); width: 60px; height: 16px; background: rgba(220, 210, 190, 0.8); border: 1px dashed rgba(139, 115, 85, 0.2); box-shadow: 1px 2px 3px rgba(0,0,0,0.05); z-index: 2; }
+body.theme-journal .checkin-chat-card .checkin-avatar { border-color: var(--border-color) !important; border-radius: 4px !important; }
+body.theme-journal .checkin-chat-card .checkin-progress-bar { border: 1px solid var(--border-color) !important; background: transparent !important; }
+body.theme-journal .checkin-chat-card .checkin-progress-fill { background: var(--border-color) !important; }
+body.theme-journal .checkin-chat-card span[style*="font-size:0.7em"] { background: transparent !important; color: #cc4d4d !important; border: 2px solid #cc4d4d !important; border-radius: 4px !important; padding: 0 4px !important; transform: rotate(-5deg); display: inline-block; opacity: 0.8; }
+body.theme-journal .checkin-chat-card div[style*="font-style:italic"] { font-size: 0.95em !important; opacity: 0.9 !important; margin-top: 10px !important; padding-top: 8px !important; border-top: 1px dashed rgba(139, 115, 85, 0.3) !important; text-align: center; }
+
+/* 红包卡片 (复古信封) */
+body.theme-journal .red-packet-card { background: #e8dbcb !important; border: 2px dashed var(--border-color) !important; border-radius: 4px !important; box-shadow: 3px 3px 0 rgba(139, 115, 85, 0.15) !important; width: 220px !important; }
+[data-theme="dark"] body.theme-journal .red-packet-card { background: #3d342d !important; }
+body.theme-journal .rp-top { background: transparent !important; border-bottom: 2px dashed var(--border-color) !important; }
+body.theme-journal .rp-icon { background: var(--bg-color) !important; color: var(--text-color) !important; border: 2px solid var(--border-color) !important; border-radius: 50% !important; box-shadow: inset 2px 2px 0 rgba(0,0,0,0.05) !important;}
+body.theme-journal .rp-content { color: var(--text-color) !important; }
+body.theme-journal .rp-bottom { background: rgba(255,255,255,0.4) !important; color: var(--text-color) !important; font-style: italic !important; }
+[data-theme="dark"] body.theme-journal .rp-bottom { background: rgba(0,0,0,0.2) !important; }
+
+/* 音乐卡片 (歪斜拍立得相纸) */
+body.theme-journal .music-chat-card { background: #ffffff !important; border: 1px solid var(--border-color) !important; border-radius: 2px !important; padding: 10px 10px 20px 10px !important; box-shadow: 3px 4px 6px rgba(0,0,0,0.08) !important; transform: rotate(1.5deg) !important; width: 230px !important; }
+[data-theme="dark"] body.theme-journal .music-chat-card { background: #2a241f !important; }
+body.theme-journal .music-chat-card .mc-cover { border: 1px solid var(--border-color) !important; border-radius: 2px !important; }
+body.theme-journal .music-chat-card .mc-title { color: var(--text-color) !important; }
+body.theme-journal .music-chat-card .mc-singer { color: var(--text-color) !important; opacity: 0.8 !important; }
+body.theme-journal .music-chat-card .mc-play-btn { border: 2px dashed var(--border-color) !important; background: var(--bg-color) !important; color: var(--text-color) !important; border-radius: 50% !important; box-shadow:none !important;}
+
+/* 随机念头卡片 (撕纸便签纸) */
+body.theme-journal .sudden-thought-card { background: #f5eedc !important; border: none !important; border-radius: 0 !important; box-shadow: 2px 3px 5px rgba(0,0,0,0.08) !important; clip-path: polygon(0% 2%, 100% 0%, 98% 98%, 1% 100%) !important; }
+[data-theme="dark"] body.theme-journal .sudden-thought-card { background: #3d342d !important; }
+body.theme-journal .sudden-thought-card .event-card-top { border-bottom: 2px dotted var(--border-color) !important; color: var(--text-color) !important; }
+
+/* 顶部悬浮歌词条 (半透明纸胶带) */
+body.theme-journal #musicLyricBar { background: rgba(245, 238, 220, 0.85) !important; border: 2px dashed var(--border-color) !important; box-shadow: 2px 2px 0 rgba(139, 115, 85, 0.15) !important; border-radius: 2px !important; color: var(--text-color) !important; backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
+[data-theme="dark"] body.theme-journal #musicLyricBar { background: rgba(61, 52, 45, 0.85) !important; }
+
+/* 系统提示消息 (手写墨水感) */
+body.theme-journal .system-msg-content { background: transparent !important; color: var(--text-color) !important; border: none !important; box-shadow: none !important; opacity: 0.7 !important; }
 </style>
 
 </head>
@@ -2444,6 +2849,12 @@ body.theme-magazine .top-btn.wechat-more-btn {
             <div class="app-item" onclick="openBillingModal()">
                 <div class="app-icon"><svg viewBox="0 0 24 24"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect><line x1="8" y1="10" x2="16" y2="10"></line><line x1="8" y1="14" x2="16" y2="14"></line></svg></div>
                 <span>记账</span>
+            </div>
+            
+                        <!-- 新增：交换日记 -->
+            <div class="app-item" onclick="openDiaryModal()">
+                <div class="app-icon"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path><path d="M12 8h4 M12 12h4"></path></svg></div>
+                <span>交换日记</span>
             </div>
             
             <!-- 新增：美化商城 -->
@@ -3576,6 +3987,27 @@ body.theme-magazine .top-btn.wechat-more-btn {
     <button class="outline-btn" style="margin: 0; padding: 10px; color: #4a6fa5; border-color: rgba(74, 111, 165, 0.4);" onclick="applyThemeStyle('glass')">一键套用</button>
 </div>
 
+<!-- Warm Journal 温暖手账主题 -->
+<div style="background: var(--panel-bg); border: 3px dashed var(--border-color); border-radius: 8px; padding: 15px; box-shadow: 4px 4px 0 var(--border-color); display: flex; flex-direction: column; gap: 12px; margin-top: 15px;">
+    <div style="font-weight: 900; font-size: 1.1em; display:flex; justify-content:space-between; align-items:center;">
+        <span>Warm Journal 温暖手账</span>
+        <span style="font-size: 0.7em; background: #8b7355; color: #fffcf5; padding: 2px 6px; border-radius: 4px; font-style: italic;">COZY</span>
+    </div>
+    <!-- 迷你预览图 -->
+    <div style="background: #fcf8f2; background-image: repeating-linear-gradient(transparent, transparent 19px, rgba(139, 115, 85, 0.15) 19px, rgba(139, 115, 85, 0.15) 20px); border: 2px solid #8b7355; border-radius: 6px; height: 160px; padding: 10px; display: flex; flex-direction: column; gap: 10px;">
+        <div style="display:flex; gap:8px;">
+            <div style="width:28px;height:28px;border:2px solid #8b7355;border-radius:50%;background:#f5eedc;box-shadow:2px 2px 0 rgba(139,115,85,0.2);"></div>
+            <div style="background:#f5eedc;color:#5c4a3d;border:2px solid #8b7355;border-radius:2px 12px 12px 12px;padding:6px 10px;font-weight:900;box-shadow:2px 2px 0 rgba(139,115,85,0.15);">见字如面。</div>
+        </div>
+        <div style="display:flex; gap:8px; align-self:flex-end; flex-direction:row-reverse;">
+            <div style="width:28px;height:28px;border:2px solid #8b7355;border-radius:50%;background:#ffffff;box-shadow:-2px 2px 0 rgba(139,115,85,0.2);"></div>
+            <div style="background:#ffffff;color:#5c4a3d;border:2px solid #8b7355;border-radius:12px 2px 12px 12px;padding:6px 10px;font-weight:900;box-shadow:-2px 2px 0 rgba(139,115,85,0.15);">今天也辛苦啦~</div>
+        </div>
+        <div style="margin-top:auto; background:#ffffff; border:2px dashed #8b7355; border-radius:6px; height:24px;"></div>
+    </div>
+    <button class="outline-btn" style="margin: 0; padding: 10px; color: #5c4a3d; border-color: #8b7355; border-style: dashed;" onclick="applyThemeStyle('journal')">一键套用</button>
+</div>
+
         </div>
 
         <!-- 聊天气泡区 -->
@@ -3797,6 +4229,145 @@ body.theme-magazine .top-btn.wechat-more-btn {
                     <div style="width: 80%; background: var(--panel-bg); border: 2px solid var(--border-color); border-radius:8px; height: 28px; box-shadow: 0 4px 0 var(--border-color);"></div>
                 </div>
                 <button class="outline-btn" style="margin: 0; padding: 10px;" onclick="applyInputStyle('side_dock')">应用此排版</button>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<!-- 交换日记主界面 (全新高级黑白版) -->
+<div class="modal" id="diaryModal" style="z-index: 99999;">
+    <div class="modal-content" style="height: 85vh; display: flex; flex-direction: column;">
+        <div style="padding:15px; border-bottom: 4px solid var(--border-color); font-weight:900; font-size:1.2em; text-align:center; font-style: italic; display:flex; justify-content:space-between; align-items:center;">
+            <span></span>
+            <span>EXCHANGE DIARY</span>
+            <button class="icon-btn" style="border:none; color:#ff4444; background:transparent; padding:0; box-shadow:none; font-size:1.2em;" onclick="closeDiaryModal()">✖</button>
+        </div>
+        
+        <!-- 重新设计的 Tab 栏：胶囊状居中悬浮，更精致不单调 -->
+        <div style="padding: 15px 15px 5px 15px; background: var(--bg-color); display: flex; justify-content: center;">
+            <div style="display: flex; background: var(--panel-bg); border: 3px solid var(--border-color); border-radius: 20px; overflow: hidden; box-shadow: 3px 3px 0 var(--border-color);">
+                <button class="diary-tab-btn active" id="diaryTabActive" onclick="switchDiaryTab('active')">进行中</button>
+                <div style="width: 3px; background: var(--border-color);"></div>
+                <button class="diary-tab-btn" id="diaryTabArchive" onclick="switchDiaryTab('archive')">已封存</button>
+            </div>
+        </div>
+
+        <div id="diaryListRender" style="flex:1; overflow-y:auto; padding: 15px; display:flex; flex-direction:column; gap: 15px; background: var(--bg-color); background-image: var(--bg-pattern); background-size: var(--bg-size);">
+            <!-- 列表渲染区 -->
+        </div>
+
+        <div style="padding: 15px; border-top: 4px solid var(--border-color); flex-shrink: 0; background: var(--panel-bg);">
+            <button class="action-btn" onclick="openCreateDiaryModal()">+ 开启新的交换日记</button>
+        </div>
+    </div>
+</div>
+
+<!-- 新建交换日记弹窗 -->
+<div class="modal" id="createDiaryModal" style="z-index: 999999;">
+    <div class="modal-content" style="max-width: 320px; padding: 20px; gap: 15px;">
+        <div style="text-align:center; font-weight:900; font-size:1.2em; font-style:italic;">NEW DIARY</div>
+        
+        <div class="form-group" style="margin-bottom:0;">
+            <label>给日记本起个名字吧</label>
+            <div style="display:flex; gap:8px;">
+                <input type="text" id="newDiaryName" placeholder="例如：夏日记事...">
+                <button class="outline-btn" style="margin:0; width:auto; padding:0 10px; border-radius: 4px;" onclick="randomDiaryName()" title="让TA选名字">随机</button>
+            </div>
+        </div>
+        
+        <div class="form-group" style="margin-bottom:0;">
+            <label>设定坚持的天数</label>
+            <select id="newDiaryDays" style="appearance:auto;">
+                <option value="3">3天 短篇小记</option>
+                <option value="7">7天 一周回响</option>
+                <option value="15">15天 半月之约</option>
+                <option value="30">30天 长情陪伴</option>
+            </select>
+        </div>
+        
+        <div style="display:flex; gap:12px; margin-top:10px;">
+            <button class="outline-btn" style="flex:1; margin:0; border-radius: 6px;" onclick="document.getElementById('createDiaryModal').style.display='none'">取消</button>
+            <button class="action-btn" style="flex:1; margin:0; border-radius:6px;" onclick="saveNewDiary()">开始交换</button>
+        </div>
+    </div>
+</div>
+
+<!-- 日记详情页 (目录与时间轴) -->
+<div class="modal" id="diaryDetailModal" style="z-index: 999999;">
+    <div class="modal-content" style="height: 85vh; display: flex; flex-direction: column;">
+        <div style="padding:15px; border-bottom: 4px solid var(--border-color); font-weight:900; font-size:1.2em; display:flex; justify-content:space-between; align-items:center; background: var(--panel-bg);">
+            <button class="icon-btn" style="border:3px solid var(--border-color); width:32px; height:32px; border-radius:50%; box-shadow: 2px 2px 0 var(--border-color);" onclick="closeDiaryDetail()">
+                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </button>
+            <span id="detailDiaryTitle" style="max-width: 180px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">日记本</span>
+            <!-- 新增：删除整本日记本的按钮 -->
+            <button class="icon-btn" style="border:3px solid var(--border-color); width:32px; height:32px; border-radius:50%; box-shadow: 2px 2px 0 var(--border-color); color: #ff4444;" onclick="deleteCurrentDiary()">
+                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2.5"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+            </button>
+        </div>
+
+        <div id="diaryEntriesRender" style="flex:1; overflow-y:auto; padding: 15px; display:flex; flex-direction:column; gap: 12px; background: var(--bg-color); background-image: var(--bg-pattern); background-size: var(--bg-size);">
+            <!-- 日记条目渲染区 -->
+        </div>
+
+        <div id="diaryActionFooter" style="padding: 15px; border-top: 4px solid var(--border-color); flex-shrink: 0; background: var(--panel-bg);">
+            <!-- 底部操作按钮 -->
+        </div>
+    </div>
+</div>
+
+<!-- 写日记/编辑日记界面 -->
+<div class="modal" id="diaryWriteModal" style="z-index: 1000000;">
+    <div class="modal-content" style="height: 85vh; display: flex; flex-direction: column; background: var(--bg-color);">
+        <div id="diaryWriteTitle" style="padding:15px; border-bottom: 4px solid var(--border-color); font-weight:900; font-size:1.2em; text-align:center; font-style: italic; background: var(--panel-bg);">
+            WRITE DIARY
+        </div>
+        <div style="flex:1; padding: 15px; display: flex; flex-direction: column;">
+            <textarea id="diaryWriteInput" style="flex:1; width:100%; padding:20px; border:4px solid var(--border-color); border-radius:8px; resize:none; font-family:inherit; font-weight:900; line-height:30px; background-color:var(--panel-bg); background-image: repeating-linear-gradient(transparent, transparent 29px, rgba(128,128,128,0.2) 29px, rgba(128,128,128,0.2) 30px); background-attachment: local; color:var(--text-color); outline:none; font-size:1.05em; box-shadow: 4px 4px 0 var(--border-color);" placeholder="今天发生了什么有趣的事呢..."></textarea>
+        </div>
+        <div style="padding: 15px; border-top: 4px solid var(--border-color); background: var(--panel-bg); display: flex; gap: 12px;">
+            <button class="outline-btn" style="flex:1; margin:0; border-radius:8px;" onclick="document.getElementById('diaryWriteModal').style.display='none'">取消</button>
+            <button class="action-btn" style="flex:1; margin:0; border-radius:8px;" onclick="saveDiaryEntry()">落笔保存</button>
+        </div>
+    </div>
+</div>
+
+<!-- 读日记界面 -->
+<div class="modal" id="diaryReadModal" style="z-index: 1000000;">
+    <div class="modal-content" style="height: 85vh; display: flex; flex-direction: column; background: var(--bg-color);">
+        <div style="padding:15px; border-bottom: 4px solid var(--border-color); font-weight:900; font-size:1.2em; display:flex; justify-content:space-between; align-items:center; background: var(--panel-bg);">
+            <div style="display:flex; flex-direction:column; gap:4px;">
+                <span id="readDiaryAuthor" style="font-size:0.85em;">作者: TA</span>
+                <span id="readDiaryTime" style="font-size:0.65em; opacity:0.7; font-style:italic;">2026.07.10</span>
+            </div>
+            
+            <!-- 新增：右侧编辑与删除按钮组 -->
+            <div style="display:flex; gap:10px; align-items:center;">
+                <button class="icon-btn" style="border:none; padding:4px; box-shadow:none; color:var(--text-color); background:transparent;" onclick="editCurrentEntry()" title="编辑这篇">
+                    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                </button>
+                <button class="icon-btn" style="border:none; padding:4px; box-shadow:none; color:#ff4444; background:transparent;" onclick="deleteCurrentEntry()" title="撕掉这篇">
+                    <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" fill="none" stroke-width="2.5"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                </button>
+                <button class="icon-btn" style="border:3px solid var(--border-color); width:32px; height:32px; border-radius:50%; box-shadow: 2px 2px 0 var(--border-color);" onclick="document.getElementById('diaryReadModal').style.display='none'">✖</button>
+            </div>
+        </div>
+        <div style="flex:1; padding: 25px 20px; overflow-y: auto; background-image: var(--bg-pattern); background-size: var(--bg-size); display: flex; flex-direction: column;">
+            
+            <!-- 独立手账信纸容器 -->
+            <div style="position: relative; flex: 1; background: var(--panel-bg); border: 4px solid var(--border-color); border-radius: 4px; box-shadow: 6px 6px 0 var(--border-color); padding: 35px 20px 20px 20px; display: flex; flex-direction: column;">
+                
+                <!-- 顶部的半透明网点纸胶带 -->
+                <div style="position: absolute; top: -12px; left: 50%; transform: translateX(-50%) rotate(-2deg); width: 100px; height: 26px; background: rgba(180, 180, 180, 0.2); border: 2px dashed var(--border-color); z-index: 2; backdrop-filter: blur(2px);"></div>
+
+                <!-- 横格纸文字区域 -->
+                <div id="readDiaryText" style="flex: 1; font-weight: 900; line-height: 32px; font-size: 1.05em; white-space: pre-wrap; word-break: break-all; color: var(--text-color); background-image: repeating-linear-gradient(transparent, transparent 31px, rgba(128,128,128,0.2) 31px, rgba(128,128,128,0.2) 32px); background-attachment: local;"></div>
+                
+                <!-- 底部复古印记彩蛋 -->
+                <div style="align-self: flex-end; margin-top: 30px; width: 60px; height: 60px; border: 3px solid var(--text-color); border-radius: 50%; display: flex; justify-content: center; align-items: center; opacity: 0.15; transform: rotate(-15deg); font-family: monospace; font-size: 10px; font-weight: 900; letter-spacing: 1px; text-align: center; line-height: 1.3; border-style: dashed; pointer-events: none;">
+                    DIARY<br>RECORD
+                </div>
             </div>
             
         </div>
@@ -4703,7 +5274,7 @@ document.documentElement.style.setProperty('--bg-pattern', currentSettings.showD
             // 自动加载预设的底栏输入框样式
             const customInputStyle = document.getElementById('customInputCss');
             if (customInputStyle) customInputStyle.innerHTML = currentSettings.inputPresetCss || '';
-    document.body.classList.remove('theme-wechat', 'theme-imessage', 'theme-pink', 'theme-glass', 'theme-magazine');
+    document.body.classList.remove('theme-wechat', 'theme-imessage', 'theme-pink', 'theme-glass', 'theme-magazine', 'theme-journal');
     if (currentSettings.themeStyle === 'wechat') {
     document.body.classList.add('theme-wechat');
 } else if (currentSettings.themeStyle === 'imessage') {
@@ -4714,6 +5285,8 @@ document.documentElement.style.setProperty('--bg-pattern', currentSettings.showD
     document.body.classList.add('theme-glass');
 } else if (currentSettings.themeStyle === 'magazine') {
     document.body.classList.add('theme-magazine');
+} else if (currentSettings.themeStyle === 'journal') {
+    document.body.classList.add('theme-journal'); // 👉 增加这三行
 }
     }
         
@@ -8476,6 +9049,7 @@ if (newArrivedCount > 0) {
 setTimeout(() => { 
     checkPartnerCheckins();
     checkUnreadLetters(); 
+    checkPendingDiaryTasks();
 }, 2000);
 
 // ====== 随机念头卡片功能 ======
@@ -8731,6 +9305,9 @@ if (cachedMusicList && cachedMusicList.length > 0 && Math.random() < 0.05) {
         typingIndicator.style.display = 'none';
         document.body.appendChild(typingIndicator);
     }
+    
+    // === 最后一步：触发 TA 检查是否需要去写日记 ===
+    autoCheckDiaryToWrite();
 };
 
 /* ================= 桌宠宝宝系统核心 ================= */
@@ -8923,11 +9500,11 @@ document.addEventListener('touchend', (e) => {
 });
 
 // === 页面可见性监听 (防挂机神器) ===
-// 手机浏览器切出应用再切回时，定时器可能会停摆，这一步能瞬间对账唤醒
 document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'visible') {
         checkPartnerCheckins();
         checkUnreadLetters();
+        checkPendingDiaryTasks();
     }
 });
 
@@ -9854,6 +10431,7 @@ else if (styleId === 'imessage') t.innerText = '已套用苹果主题';
 else if (styleId === 'pink') t.innerText = '已套用粉色少女主题';
 else if (styleId === 'glass') t.innerText = '已套用全透毛玻璃主题';
 else if (styleId === 'magazine') t.innerText = '已套用杂志线框主题';
+else if (styleId === 'journal') t.innerText = '已套用温暖手账主题'; // 👉 加这行
 else t.innerText = '已恢复默认主题';
     document.body.appendChild(t);
     setTimeout(() => t.style.opacity = '1', 10);
@@ -11377,6 +11955,612 @@ async function removeDuplicateCards() {
         setTimeout(()=>t.style.opacity='1', 10);
         setTimeout(()=>{ t.style.opacity='0'; setTimeout(()=>t.remove(),300); }, 1500);
     });
+}
+
+/* ================= 交换日记系统核心逻辑 ================= */
+let diaryDataList = [];
+
+async function openDiaryModal() {
+    document.getElementById('appPanel').style.display = 'none'; // 关闭悬浮球菜单
+    
+    // 从数据库读取日记数据
+    const data = await getFromDB('settings', 'diaryData');
+    diaryDataList = data ? data.value : [];
+    
+    // 打开弹窗并渲染
+    document.getElementById('diaryModal').style.display = 'flex';
+    switchDiaryTab('active');
+}
+
+function closeDiaryModal() {
+    document.getElementById('diaryModal').style.display = 'none';
+}
+
+function switchDiaryTab(tab) {
+    document.getElementById('diaryTabActive').classList.remove('active');
+    document.getElementById('diaryTabArchive').classList.remove('active');
+    
+    if (tab === 'active') {
+        document.getElementById('diaryTabActive').classList.add('active');
+        renderDiaryList(false); // 渲染进行中
+    } else {
+        document.getElementById('diaryTabArchive').classList.add('active');
+        renderDiaryList(true); // 渲染已封存
+    }
+}
+
+// 渲染日记本列表
+function renderDiaryList(isArchive) {
+    const container = document.getElementById('diaryListRender');
+    container.innerHTML = '';
+    
+    const list = diaryDataList.filter(d => d.isArchive === isArchive && (!d.chatId || d.chatId === currentChatId));
+    
+    if (list.length === 0) {
+        container.innerHTML = '<div style="text-align:center; opacity:0.5; font-weight:900; padding:40px 0; font-style:italic;">暂无日记本记录哦~</div>';
+        return;
+    }
+    
+    list.forEach(d => {
+        const item = document.createElement('div');
+        item.className = 'diary-book-card';
+        
+        let progressText = d.isArchive ? '已封存' : `进度: ${Math.floor(d.currentDay / 2)} / ${d.targetDays} 天`;
+        
+        // 动态标签样式
+        let tagHtml = '';
+        if (!d.isArchive) {
+            if (d.currentTurn === 'user') {
+                tagHtml = `<span class="diary-turn-tag">该你写啦</span>`;
+            } else {
+                tagHtml = `<span class="diary-turn-tag wait">等待TA下笔</span>`;
+            }
+        }
+
+        item.innerHTML = `
+            <div class="diary-title">${d.name}</div>
+            <div class="diary-status">
+                <span>${progressText}</span>
+                ${tagHtml}
+            </div>
+        `;
+        item.onclick = () => openDiaryDetail(d.id);
+        
+        container.appendChild(item);
+    });
+}
+
+function openCreateDiaryModal() {
+    document.getElementById('newDiaryName').value = '';
+    document.getElementById('createDiaryModal').style.display = 'flex';
+}
+
+// 让TA帮忙选名字的小彩蛋
+function randomDiaryName() {
+    const names = ["盛夏的交换记事", "不可说的秘密基地", "星空下的碎碎念", "关于我们的100件小事", "写给明天的信", "月光储蓄罐", "日常发呆记录本"];
+    const r = names[Math.floor(Math.random() * names.length)];
+    document.getElementById('newDiaryName').value = r;
+}
+
+// 保存新建的日记本
+async function saveNewDiary() {
+    const name = document.getElementById('newDiaryName').value.trim();
+    const days = parseInt(document.getElementById('newDiaryDays').value);
+    
+    if (!name) {
+        showCustomConfirm('给你们的日记本起个名字吧！', ()=>{});
+        return;
+    }
+    
+    // 决定第一篇由谁先起笔（50%概率是你，50%概率是TA）
+    const firstTurn = Math.random() < 0.5 ? 'user' : 'char';
+    const now = Date.now();
+    
+    const newDiary = {
+        id: 'diary_' + now,
+        chatId: currentChatId,
+        name: name,
+        targetDays: days,
+        currentDay: 0,
+        isArchive: false,
+        currentTurn: firstTurn, // 'user' 或 'char'
+        entries: [], // 存放每一天的具体内容
+        lastWriteTime: 0 // 上次写日记的时间，用来判定是否拖延
+    };
+    
+    // 【新增核心机制】：如果是TA起笔，给TA分配一个自带的初始写作倒计时！
+    if (firstTurn === 'char') {
+        // TA 会在 3 分钟 到 30 分钟 的随机时间里，自动悄悄把第一篇写好
+        const delayMs = Math.random() * (27 * 60 * 1000) + (3 * 60 * 1000);
+        newDiary.nextWriteTime = now + delayMs;
+    }
+    
+    diaryDataList.unshift(newDiary); // 新建的放最前面
+    await putToDB('settings', { key: 'diaryData', value: diaryDataList });
+    
+    document.getElementById('createDiaryModal').style.display = 'none';
+    
+    // 弹个优雅的小提示
+    let t = document.createElement('div');
+    t.style.cssText = 'position:fixed; bottom:120px; left:50%; transform:translateX(-50%); background:var(--text-color); color:var(--bg-color); padding:8px 16px; border-radius:20px; font-weight:900; font-size:0.9em; z-index:999999; opacity:0; transition:opacity 0.3s; pointer-events:none; box-shadow:0 4px 10px rgba(0,0,0,0.2);';
+    t.innerText = `日记本创立成功！第一篇由 ${firstTurn === 'user' ? '你' : 'TA'} 起笔。`;
+    document.body.appendChild(t);
+    setTimeout(()=>t.style.opacity='1', 10);
+    setTimeout(()=>{ t.style.opacity='0'; setTimeout(()=>t.remove(),300); }, 2500);
+
+    switchDiaryTab('active');
+    
+    // 如果是 TA 起笔，立刻激活后台巡逻扫描器，启动倒计时！
+    if (firstTurn === 'char') {
+        checkPendingDiaryTasks();
+    }
+}
+
+let currentActiveDiaryId = null;
+
+// 打开日记详情目录
+function openDiaryDetail(id) {
+    currentActiveDiaryId = id;
+    const diary = diaryDataList.find(d => d.id === id);
+    if (!diary) return;
+
+    document.getElementById('detailDiaryTitle').innerText = diary.name;
+    document.getElementById('diaryDetailModal').style.display = 'flex';
+    
+    renderDiaryEntries(diary);
+}
+
+function closeDiaryDetail() {
+    document.getElementById('diaryDetailModal').style.display = 'none';
+    currentActiveDiaryId = null;
+    // 返回后刷新一下外面的主列表进度
+    switchDiaryTab(document.getElementById('diaryTabActive').classList.contains('active') ? 'active' : 'archive');
+}
+
+// 渲染日记本里的内容
+function renderDiaryEntries(diary) {
+    const container = document.getElementById('diaryEntriesRender');
+    const footer = document.getElementById('diaryActionFooter');
+    container.innerHTML = '';
+
+    if (!diary.entries || diary.entries.length === 0) {
+        let firstAuthor = diary.currentTurn === 'user' ? '你' : 'TA';
+        container.innerHTML = `
+            <div style="background: var(--panel-bg); border: 3px dashed var(--border-color); border-radius: 8px; padding: 30px 20px; text-align: center; font-weight: 900; opacity: 0.8; margin-top: 20px;">
+                <div style="font-size: 2em; margin-bottom: 10px;">📖</div>
+                这是一个崭新的日记本<br>第一篇将由 <span style="color:#ff4444; font-style:italic;">${firstAuthor}</span> 来起笔！
+            </div>
+        `;
+    } else {
+        diary.entries.forEach((entry, index) => {
+            const item = document.createElement('div');
+            item.className = 'diary-entry-item';
+            
+            const authorName = entry.author === 'user' ? (currentSettings.userName || '我') : (currentSettings.charName || 'TA');
+            const displayDay = Math.floor(index / 2) + 1;
+            
+            item.innerHTML = `
+                <div class="diary-entry-header">
+                    <div class="diary-entry-author">${authorName} 的日记</div>
+                    <div class="diary-entry-time">DAY ${displayDay}</div>
+                </div>
+                <div class="diary-entry-preview">${entry.text.substring(0, 20)}...</div>
+            `;
+            
+            // 点击阅读全篇时，把日记本ID和这篇日记的索引index传过去
+            item.onclick = () => openDiaryRead(diary.id, index);
+            container.appendChild(item);
+        });
+        
+        setTimeout(() => container.scrollTop = container.scrollHeight, 50);
+    }
+
+    if (diary.isArchive) {
+        footer.innerHTML = `<button class="action-btn" style="opacity:0.5; cursor:not-allowed;">这本日记已写满封存</button>`;
+    } else if (diary.currentTurn === 'user') {
+        footer.innerHTML = `<button class="action-btn" onclick="openDiaryWrite()">落笔写日记</button>`;
+    } else {
+        footer.innerHTML = `<button class="outline-btn" style="width:100%; border-style:dashed;" onclick="urgeTaDiary()">轮到TA了，戳一戳催更</button>`;
+    }
+}
+
+let currentReadDiaryId = null;
+let currentReadEntryIndex = -1;
+let isEditingDiaryEntry = false; // 标记现在是否处于编辑状态
+
+// 打开写日记界面 (新建模式)
+function openDiaryWrite() {
+    isEditingDiaryEntry = false;
+    document.getElementById('diaryWriteTitle').innerText = 'WRITE DIARY';
+    document.getElementById('diaryWriteInput').value = '';
+    document.getElementById('diaryWriteModal').style.display = 'flex';
+}
+
+// 保存我写的日记 (涵盖新建与编辑)
+async function saveDiaryEntry() {
+    const text = document.getElementById('diaryWriteInput').value.trim();
+    if (!text) {
+        showCustomConfirm("日记内容不能为空哦！", ()=>{});
+        return;
+    }
+
+    // 如果是【编辑模式】，直接修改并保存
+    if (isEditingDiaryEntry) {
+        const diaryToEdit = diaryDataList.find(d => d.id === currentReadDiaryId);
+        diaryToEdit.entries[currentReadEntryIndex].text = text;
+        
+        await putToDB('settings', { key: 'diaryData', value: diaryDataList });
+        document.getElementById('diaryWriteModal').style.display = 'none';
+        renderDiaryEntries(diaryToEdit); // 刷新详情页
+        
+        // 恢复标志位
+        isEditingDiaryEntry = false;
+        document.getElementById('diaryWriteTitle').innerText = 'WRITE DIARY';
+        return;
+    }
+
+    // 如果是【新建模式】
+    const diary = diaryDataList.find(d => d.id === currentActiveDiaryId);
+    if (!diary) return;
+
+    if (!diary.entries) diary.entries = [];
+    
+    diary.entries.push({
+        author: 'user',
+        text: text,
+        timestamp: Date.now()
+    });
+
+    diary.currentDay += 1;
+
+    if (diary.currentDay >= diary.targetDays * 2) {
+        diary.isArchive = true;
+    } else {
+        diary.currentTurn = 'char';
+        diary.lastWriteTime = Date.now();
+    }
+
+    await putToDB('settings', { key: 'diaryData', value: diaryDataList });
+    
+    document.getElementById('diaryWriteModal').style.display = 'none';
+    renderDiaryEntries(diary); 
+}
+
+// 阅读某篇日记
+function openDiaryRead(diaryId, index) {
+    currentReadDiaryId = diaryId;
+    currentReadEntryIndex = index;
+    
+    const diary = diaryDataList.find(d => d.id === diaryId);
+    const entry = diary.entries[index];
+    
+    const authorName = entry.author === 'user' ? (currentSettings.userName || '我') : (currentSettings.charName || 'TA');
+    const dDate = new Date(entry.timestamp);
+    const timeStr = `${dDate.getFullYear()}.${String(dDate.getMonth()+1).padStart(2,'0')}.${String(dDate.getDate()).padStart(2,'0')} ${String(dDate.getHours()).padStart(2,'0')}:${String(dDate.getMinutes()).padStart(2,'0')}`;
+    
+    document.getElementById('readDiaryAuthor').innerText = `作者: ${authorName}`;
+    document.getElementById('readDiaryTime').innerText = timeStr;
+    document.getElementById('readDiaryText').innerText = entry.text;
+    document.getElementById('diaryReadModal').style.display = 'flex';
+}
+
+// 【新增】编辑当前正在阅读的这篇日记
+function editCurrentEntry() {
+    const diary = diaryDataList.find(d => d.id === currentReadDiaryId);
+    const entry = diary.entries[currentReadEntryIndex];
+    
+    isEditingDiaryEntry = true;
+    document.getElementById('diaryWriteTitle').innerText = 'EDIT ENTRY (编辑)';
+    document.getElementById('diaryWriteInput').value = entry.text;
+    
+    document.getElementById('diaryReadModal').style.display = 'none';
+    document.getElementById('diaryWriteModal').style.display = 'flex';
+}
+
+// 【新增】撕掉(删除)当前正在阅读的这篇日记
+async function deleteCurrentEntry() {
+    showCustomConfirm('确定要撕掉这篇日记吗？', async () => {
+        const diary = diaryDataList.find(d => d.id === currentReadDiaryId);
+        
+        // 删掉这条数据
+        diary.entries.splice(currentReadEntryIndex, 1);
+        
+        // 智能回退日记天数和状态
+        diary.currentDay = diary.entries.length;
+        
+        // 判断是否因为撕掉一篇，导致这本封存的日记重新变为“进行中”
+        diary.isArchive = diary.currentDay >= diary.targetDays * 2;
+        
+        // 智能回退回合：看看剩下最后一篇是谁写的，把笔交给另外一个人
+        if (diary.entries.length > 0) {
+            diary.currentTurn = diary.entries[diary.entries.length - 1].author === 'user' ? 'char' : 'user';
+        } else {
+            // 如果撕光了，把笔交给你
+            diary.currentTurn = 'user';
+        }
+        
+        await putToDB('settings', { key: 'diaryData', value: diaryDataList });
+        document.getElementById('diaryReadModal').style.display = 'none';
+        renderDiaryEntries(diary); // 刷新详情目录
+    });
+}
+
+// 【新增】彻底销毁整本交换日记本
+async function deleteCurrentDiary() {
+    if (!currentActiveDiaryId) return;
+    showCustomConfirm('确定要彻底销毁这本日记吗？所有的回忆都将消失哦！', async () => {
+        diaryDataList = diaryDataList.filter(d => d.id !== currentActiveDiaryId);
+        await putToDB('settings', { key: 'diaryData', value: diaryDataList });
+        
+        // 返回主界面并刷新
+        closeDiaryDetail();
+    });
+}
+
+// 生成 TA 的智能拼接日记内容
+async function generateTaDiaryContent() {
+    const allWords = await getAllFromDB('wordCards');
+    if (!allWords || allWords.length === 0) return "（拿起笔，想记录些什么，却不知道该从何说起呢……）";
+
+    let validWords = allWords;
+    if(currentSettings.activeReplyGroups && currentSettings.activeReplyGroups.length > 0) {
+        validWords = allWords.filter(w => currentSettings.activeReplyGroups.includes(w.category || '日常'));
+    }
+    if (validWords.length === 0) validWords = allWords; // 兜底防空
+
+    // 随机抽取 5 到 20 条片段
+    const spliceCount = Math.floor(Math.random() * 16) + 5; 
+    let text = "";
+
+    for (let i = 0; i < spliceCount; i++) {
+        let snippet = validWords[Math.floor(Math.random() * validWords.length)].text.trim();
+        
+        // 检查这段话结尾是不是已经带了标点
+        let hasPunc = false;
+        const lastChar = snippet.slice(-1);
+        if (['。', '！', '？', '，', '…', '!', '?', ',', '.'].includes(lastChar)) {
+            hasPunc = true;
+        }
+
+        if (i === spliceCount - 1) {
+            // 最后一句收尾处理
+            if (!hasPunc) {
+                const r = Math.random();
+                if (r < 0.6) snippet += '。';
+                else if (r < 0.8) snippet += '！';
+                else snippet += '……';
+            } else if (lastChar === '，' || lastChar === ',') {
+                // 如果最后一句结尾是逗号，强行改回句号结束
+                snippet = snippet.slice(0, -1) + '。';
+            }
+        } else {
+            // 中间的句子加各种符号
+            if (!hasPunc) {
+                const r = Math.random();
+                if (r < 0.6) snippet += '，';
+                else if (r < 0.8) snippet += '。';
+                else if (r < 0.9) snippet += '？';
+                else snippet += '！';
+            }
+        }
+        text += snippet;
+    }
+    return text;
+}
+
+// ================= 交换日记：定时持久化引擎 =================
+let diaryWriteTimers = {};
+
+// 统一执行 TA 写日记的动作
+async function executeTaDiaryWrite(diaryId) {
+    const freshData = await getFromDB('settings', 'diaryData');
+    let currentList = freshData ? freshData.value : [];
+    let dToUpdate = currentList.find(d => d.id === diaryId);
+
+    // 再次确认本子没被封存，且确实在 TA 手里
+    if (dToUpdate && !dToUpdate.isArchive && dToUpdate.currentTurn === 'char' && dToUpdate.nextWriteTime) {
+        const taText = await generateTaDiaryContent();
+        
+        dToUpdate.entries.push({
+            author: 'char',
+            text: taText,
+            timestamp: Date.now()
+        });
+        dToUpdate.currentDay += 1;
+        
+        if (dToUpdate.currentDay >= dToUpdate.targetDays * 2) {
+    dToUpdate.isArchive = true;
+} else {
+            dToUpdate.currentTurn = 'user'; // 交还给你
+        }
+        
+        dToUpdate.nextWriteTime = null; // 清理掉时间标记
+        await putToDB('settings', { key: 'diaryData', value: currentList });
+        
+        let cName = currentSettings.charName || "TA";
+        await saveAndRenderMsg('system', `${cName} 已悄悄在《${dToUpdate.name}》里写下了一篇新日记`, null, Date.now(), true);
+    }
+}
+
+// 全局扫描：检查有没有到点该写、或错过时间的日记
+async function checkPendingDiaryTasks() {
+    const diaryData = await getFromDB('settings', 'diaryData');
+    let dList = diaryData ? diaryData.value : [];
+    const now = Date.now();
+    
+    dList.forEach(d => {
+        if (d.nextWriteTime && !d.isArchive && d.currentTurn === 'char') {
+            if (diaryWriteTimers[d.id]) clearTimeout(diaryWriteTimers[d.id]);
+            
+            if (now >= d.nextWriteTime) {
+                // 如果时间已经过了（比如你关了网页刚打开），立刻补写！
+                executeTaDiaryWrite(d.id);
+            } else {
+                // 时间还没到，挂载精准定时器
+                diaryWriteTimers[d.id] = setTimeout(() => executeTaDiaryWrite(d.id), d.nextWriteTime - now);
+            }
+        }
+    });
+}
+
+// 催更逻辑 (带预计时间回应 + 持久化)
+async function urgeTaDiary() {
+    const diary = diaryDataList.find(d => d.id === currentActiveDiaryId);
+    if (!diary) return;
+
+    // 智能计算时间：如果是新建的还没写过，就用创建时间；写过了就用最后一次落笔时间
+    let passedSeconds = 0;
+    if (diary.lastWriteTime === 0) {
+        const createTime = parseInt(diary.id.split('_')[1]);
+        passedSeconds = (Date.now() - createTime) / 1000;
+    } else {
+        passedSeconds = (Date.now() - diary.lastWriteTime) / 1000;
+    }
+    
+    // 如果 10 秒内连续点，TA 会傲娇拒绝
+    if (passedSeconds < 10) {
+        // 智能文案判定
+        let rejectMsg = diary.entries.length === 0 
+            ? 'TA：喂！本子才刚建好，我还没想好第一篇写什么呢，不许催！' 
+            : 'TA：喂！笔才刚交给我，我还没想好怎么写呢，不许催！';
+
+        // 生成居中、带漫画风阴影的高级弹窗
+        let t = document.createElement('div');
+        t.style.cssText = 'position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:var(--text-color); color:var(--bg-color); padding:15px 25px; border-radius:8px; font-weight:900; font-size:1em; z-index:999999; opacity:0; transition:opacity 0.2s; pointer-events:none; box-shadow: 4px 4px 0 var(--border-color); text-align:center; width: 75%; max-width: 300px;';
+        t.innerText = rejectMsg;
+        document.body.appendChild(t);
+        setTimeout(()=>t.style.opacity='1', 10);
+        setTimeout(()=>{ t.style.opacity='0'; setTimeout(()=>t.remove(),300); }, 2500);
+        return;
+    }
+
+    diary.lastWriteTime = Date.now();
+
+    document.getElementById('diaryDetailModal').style.display = 'none';
+    document.getElementById('diaryModal').style.display = 'none';
+    currentActiveDiaryId = null;
+
+    // 发送催更卡片
+    const urgeQuotes = [
+        "该你落笔啦，今天有什么趣事吗？", 
+        "日记本交给你咯，快写快写~", 
+        "静候你的交换日记回音。", 
+        "今天轮到你来记录啦！",
+        "笔给你，写点什么吧~"
+    ];
+    const randomQuote = urgeQuotes[Math.floor(Math.random() * urgeQuotes.length)];
+
+    const htmlStr = `
+        <div class="checkin-chat-card" style="border-style: solid;">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom: 2px;">
+                <div style="font-weight:900; font-size:1.15em; letter-spacing:1px; line-height:1.3; max-width: 75%;">
+                    <span style="font-size:0.7em; background:var(--text-color); color:var(--bg-color); padding:2px 4px; border-radius:4px; vertical-align:middle; margin-right:4px;">催更</span>
+                    <br/>日记本：${diary.name}
+                </div>
+                <div style="color: var(--text-color); opacity: 0.9; padding-top: 4px;">
+                    <svg viewBox="0 0 24 24" width="28" height="28" stroke="currentColor" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                    </svg>
+                </div>
+            </div>
+            <div style="font-size:0.85em; font-weight:900; font-style:italic; margin-top:4px; opacity:0.8;">“${randomQuote}”</div>
+        </div>
+    `;
+
+    const qData = currentQuoteData; clearQuote();
+    await saveAndRenderMsg('user', htmlStr, null, Date.now(), true, null, qData);
+    if (!isBatchMode) simulateReadAndReply();
+
+    // 计算延迟时间和回应话语
+    const roll = Math.random();
+    let delayMs = 0;
+    let hintText = "";
+    
+    if (roll < 0.4) {
+        delayMs = Math.random() * 5000 + 3000;
+        hintText = "TA 回应：马上就写！等我几秒钟~";
+    } else if (roll < 0.7) {
+        delayMs = Math.random() * 90000 + 30000;
+        let mins = Math.ceil(delayMs / 60000);
+        hintText = `TA 回应：知道啦，大概 ${mins} 分钟后写！`;
+    } else {
+        delayMs = Math.random() * 1500000 + 300000;
+        let mins = Math.ceil(delayMs / 60000);
+        hintText = `TA 回应：现在不想写，过个 ${mins} 分钟再说吧~`;
+    }
+
+    // 悬浮提示 TA 的回应
+    let t = document.createElement('div');
+    t.style.cssText = 'position:fixed; bottom:120px; left:50%; transform:translateX(-50%); background:var(--text-color); color:var(--bg-color); padding:8px 16px; border-radius:20px; font-weight:900; font-size:0.9em; z-index:999999; opacity:0; transition:opacity 0.3s; pointer-events:none; box-shadow:0 4px 10px rgba(0,0,0,0.2); white-space:nowrap;';
+    t.innerText = hintText;
+    document.body.appendChild(t);
+    setTimeout(()=>t.style.opacity='1', 10);
+    setTimeout(()=>{ t.style.opacity='0'; setTimeout(()=>t.remove(),300); }, 3500);
+
+    // 将目标时间永久写入数据库！
+    diary.nextWriteTime = Date.now() + delayMs;
+    await putToDB('settings', { key: 'diaryData', value: diaryDataList });
+
+    // 激活后台检查器
+    checkPendingDiaryTasks();
+}
+
+// 自动随机触发 (35%主动写，20%主动催)
+async function autoCheckDiaryToWrite() {
+    const diaryData = await getFromDB('settings', 'diaryData');
+    let dList = diaryData ? diaryData.value : [];
+    if (dList.length === 0) return;
+
+    let targetDiary = dList.find(d => !d.isArchive && (!d.chatId || d.chatId === currentChatId));
+    if (!targetDiary) return;
+
+    if (targetDiary.currentTurn === 'char' && !targetDiary.nextWriteTime) {
+        if (Math.random() < 0.35) {
+            let delayMs = Math.random() * 15000 + 5000; 
+            targetDiary.nextWriteTime = Date.now() + delayMs;
+            await putToDB('settings', { key: 'diaryData', value: dList });
+            checkPendingDiaryTasks(); // 激活调度器
+        }
+    } 
+    else if (targetDiary.currentTurn === 'user') {
+        let todayStr = new Date().toLocaleDateString();
+        if (targetDiary.lastUrgedUserDate !== todayStr) {
+            if (Math.random() < 0.20) { 
+                targetDiary.lastUrgedUserDate = todayStr;
+                await putToDB('settings', { key: 'diaryData', value: dList });
+
+                const taUrgeQuotes = [
+                    "该你写日记啦，别偷懒！", "日记本还在你手里呢，快点动笔~",
+                    "今天发生了什么？快写下来给我看！", "等你的日记等得花儿都要谢了...",
+                    "别忘了我们的交换日记之约哦！"
+                ];
+                const randomQuote = taUrgeQuotes[Math.floor(Math.random() * taUrgeQuotes.length)];
+
+                const htmlStr = `
+                    <div class="checkin-chat-card" style="border-style: solid;">
+                        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom: 2px;">
+                            <div style="font-weight:900; font-size:1.15em; letter-spacing:1px; line-height:1.3; max-width: 75%;">
+                                <span style="font-size:0.7em; background:var(--text-color); color:var(--bg-color); padding:2px 4px; border-radius:4px; vertical-align:middle; margin-right:4px;">催更</span>
+                                <br/>日记本：${targetDiary.name}
+                            </div>
+                            <div style="color: var(--text-color); opacity: 0.9; padding-top: 4px;">
+                                <svg viewBox="0 0 24 24" width="28" height="28" stroke="currentColor" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div style="font-size:0.85em; font-weight:900; font-style:italic; margin-top:4px; opacity:0.8;">“${randomQuote}”</div>
+                    </div>
+                `;
+                setTimeout(async () => {
+                    let activeChar = charactersList.find(c => c.id === currentChatId) || charactersList[0];
+                    await saveAndRenderMsg('yume', htmlStr, null, Date.now(), true, activeChar);
+                }, 1500);
+            }
+        }
+    }
 }
 </script>
     

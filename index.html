@@ -2721,6 +2721,171 @@ body.theme-journal #musicLyricBar { background: rgba(245, 238, 220, 0.85) !impor
 
 /* 系统提示消息 (手写墨水感) */
 body.theme-journal .system-msg-content { background: transparent !important; color: var(--text-color) !important; border: none !important; box-shadow: none !important; opacity: 0.7 !important; }
+
+/* ========================================================= */
+/* ======= 全主题深度适配补丁：正在输入 / 电话 / 独立图片 ======= */
+/* ========================================================= */
+
+/* ---------------- 1. 微信主题 (WeChat) ---------------- */
+/* 正在输入：变成白底/黑底小圆角框，去掉漫画风边框 */
+body.theme-wechat .typing-indicator {
+    border: none !important; box-shadow: none !important; border-radius: 4px !important;
+    background: var(--bubble-bg) !important; padding: 10px 14px !important; margin: 10px 12px !important;
+}
+body.theme-wechat .typing-avatar { border-radius: 4px !important; border: none !important; width: 36px !important; height: 36px !important; }
+/* 电话：极简黑底，方形圆角头像，红绿扁平按钮 */
+body.theme-wechat .phone-modal { background: #2c2c2c !important; color: #fff !important; }
+body.theme-wechat .phone-avatar-container { border: none !important; border-radius: 8px !important; box-shadow: none !important; background-color: #3c3c3c !important;}
+body.theme-wechat .phone-btn { background: #333 !important; border: none !important; box-shadow: none !important; color: #fff !important; }
+body.theme-wechat .phone-btn.hangup { background: #fa5151 !important; color: #fff !important; }
+body.theme-wechat .phone-pulse { animation: none !important; }
+/* 单独图片/表情：无边框无内边距小圆角 */
+body.theme-wechat .chat-image { border: none !important; box-shadow: none !important; padding: 0 !important; border-radius: 4px !important; }
+
+/* ---------------- 2. 苹果主题 (iMessage) ---------------- */
+/* 正在输入：纯粹的苹果灰点点框，隐藏头像 */
+body.theme-imessage .typing-indicator {
+    border: none !important; box-shadow: none !important; border-radius: 20px !important;
+    background: var(--bubble-bg) !important; padding: 10px 16px !important; margin-left: 10px !important;
+}
+body.theme-imessage .typing-avatar, body.theme-imessage .typing-name { display: none !important; }
+/* 电话：毛玻璃全屏，超大头像圆，半透明按钮 */
+body.theme-imessage .phone-modal { background: rgba(0,0,0,0.85) !important; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); color: #fff !important; }
+body.theme-imessage .phone-avatar-container { border: none !important; box-shadow: none !important; width: 120px !important; height: 120px !important; }
+body.theme-imessage .phone-btn { background: rgba(255,255,255,0.2) !important; border: none !important; box-shadow: none !important; color: #fff !important; backdrop-filter: blur(10px); }
+body.theme-imessage .phone-btn.hangup { background: #ff3b30 !important; }
+/* 单独图片/表情：大圆角，无边框 */
+body.theme-imessage .chat-image { border: none !important; box-shadow: none !important; padding: 0 !important; border-radius: 16px !important; }
+
+/* ---------------- 3. 果冻少女粉 (Sweet Pink) ---------------- */
+/* 正在输入：半透发光，无黑边 */
+body.theme-pink .typing-indicator {
+    border: 1.5px solid rgba(255, 255, 255, 0.7) !important;
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    box-shadow: inset 0 4px 6px rgba(255,255,255,0.8), 0 4px 12px rgba(255, 180, 195, 0.25) !important;
+    border-radius: 22px !important; border-bottom-left-radius: 6px !important;
+    background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,228,232,0.6)) !important;
+}
+[data-theme="dark"] body.theme-pink .typing-indicator { background: linear-gradient(135deg, rgba(71,42,51,0.8), rgba(56,34,41,0.6)) !important; box-shadow: inset 0 2px 4px rgba(255,255,255,0.05), 0 4px 8px rgba(0,0,0,0.3) !important; border-color: rgba(255, 180, 200, 0.15) !important; }
+body.theme-pink .typing-avatar { border: 1.5px solid rgba(255,255,255,0.8) !important; box-shadow: 0 2px 6px rgba(255,180,195,0.3) !important; }
+/* 电话：梦幻渐变全屏，按钮发光 */
+body.theme-pink .phone-modal { background: linear-gradient(135deg, #fff0f3, #ffe4e8) !important; }
+[data-theme="dark"] body.theme-pink .phone-modal { background: linear-gradient(135deg, #2b1a1f, #3a2228) !important; }
+body.theme-pink .phone-avatar-container { border-color: rgba(255,255,255,0.8) !important; box-shadow: 0 8px 24px rgba(255, 180, 195, 0.4) !important; }
+body.theme-pink .phone-btn { border-color: rgba(255,255,255,0.8) !important; box-shadow: 0 4px 10px rgba(255,180,195,0.3) !important; }
+/* 单独图片/表情：圆角带粉色柔光 */
+body.theme-pink .chat-image { border: 2px solid rgba(255,255,255,0.6) !important; box-shadow: 0 4px 12px rgba(255,180,195,0.3) !important; border-radius: 16px !important; padding: 2px !important; }
+
+/* ---------------- 4. 毛玻璃全透 (Aero Glass) ---------------- */
+/* 正在输入：高级透视 */
+body.theme-glass .typing-indicator {
+    background: rgba(255, 255, 255, 0.65) !important;
+    border: 1px solid rgba(255,255,255,0.4) !important;
+    border-radius: 12px !important;
+    backdrop-filter: blur(10px) !important; -webkit-backdrop-filter: blur(10px) !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05) !important;
+}
+[data-theme="dark"] body.theme-glass .typing-indicator { background: rgba(50, 50, 50, 0.6) !important; border-color: rgba(255,255,255,0.1) !important;}
+body.theme-glass .typing-avatar { border: 1.5px solid rgba(255,255,255,0.5) !important; }
+/* 电话：毛玻璃按钮与边框 */
+body.theme-glass .phone-avatar-container { border: 1.5px solid rgba(255,255,255,0.5) !important; backdrop-filter: blur(10px); box-shadow: 0 8px 32px rgba(0,0,0,0.1) !important;}
+body.theme-glass .phone-btn { border: 1.5px solid rgba(255,255,255,0.5) !important; backdrop-filter: blur(10px); box-shadow: 0 8px 32px rgba(0,0,0,0.1) !important; background: rgba(255,255,255,0.2) !important; }
+/* 单独图片/表情：细白框 */
+body.theme-glass .chat-image { border: 1.5px solid rgba(255,255,255,0.5) !important; box-shadow: 0 4px 15px rgba(0,0,0,0.05) !important; border-radius: 12px !important; padding: 0 !important; }
+
+/* ---------------- 5. 极简杂志 (Magazine) ---------------- */
+/* 正在输入：纯净直角黑框 */
+body.theme-magazine .typing-indicator {
+    border: 1px solid var(--border-color) !important; border-radius: 0 !important;
+    box-shadow: none !important; background: var(--bg-color) !important;
+}
+body.theme-magazine .typing-avatar { border: 1px solid var(--border-color) !important; border-radius: 0 !important; }
+/* 电话：纯线条构成，无圆角 */
+body.theme-magazine .phone-avatar-container { border: 1px solid var(--border-color) !important; border-radius: 0 !important; box-shadow: none !important; }
+body.theme-magazine .phone-btn { border: 1px solid var(--border-color) !important; border-radius: 0 !important; box-shadow: none !important; background: var(--bg-color) !important; color: var(--text-color) !important; }
+body.theme-magazine .phone-btn.hangup { background: var(--text-color) !important; color: var(--bg-color) !important; }
+/* 单独图片/表情：零内距，一根细线 */
+body.theme-magazine .chat-image { border: 1px solid var(--border-color) !important; box-shadow: none !important; border-radius: 0 !important; padding: 0 !important; }
+
+/* ---------------- 6. 温暖手账 (Journal) ---------------- */
+/* 正在输入：柔和纸张，胶带贴合 */
+body.theme-journal .typing-indicator {
+    background: #fdfaf6 !important; border: 1px solid var(--border-color) !important;
+    border-radius: 2px 16px 16px 16px !important; box-shadow: 2px 3px 0 rgba(139, 115, 85, 0.15) !important;
+}
+[data-theme="dark"] body.theme-journal .typing-indicator { background: #453a32 !important; }
+body.theme-journal .typing-avatar { border: 1px solid var(--border-color) !important; }
+/* 电话：拍立得相纸风，按钮像印章 */
+body.theme-journal .phone-avatar-container { background-color: #fff !important; border: 1px solid var(--border-color) !important; border-radius: 2px !important; box-shadow: 3px 4px 6px rgba(0,0,0,0.1) !important; padding: 10px 10px 25px 10px !important; width: auto !important; height: auto !important; min-width: 140px; min-height: 155px; }
+body.theme-journal .phone-btn { border: 2px dashed var(--border-color) !important; box-shadow: 2px 3px 0 rgba(139,115,85,0.15) !important; background: var(--panel-bg) !important;}
+/* 单独图片/表情：歪斜拍立得照片效果 */
+body.theme-journal .chat-image { background: #fff !important; border: 1px solid var(--border-color) !important; border-radius: 2px !important; box-shadow: 2px 3px 5px rgba(0,0,0,0.1) !important; padding: 6px 6px 16px 6px !important; transform: rotate(-1.5deg); }
+[data-theme="dark"] body.theme-journal .chat-image { background: #3d342d !important; }
+
+/* ========================================================= */
+/* ======= 终极修复：电话头像变白、挂断键消失、悬浮小窗适配 ======= */
+/* ========================================================= */
+
+/* ---------------- 1. 微信主题 (WeChat) ---------------- */
+body.theme-wechat .phone-avatar-container { background-color: #3c3c3c !important; background-image: inherit; }
+body.theme-wechat .phone-btn.hangup { background-color: #fa5151 !important; color: #fff !important; }
+/* 小窗适配 */
+body.theme-wechat .minimized-phone { background: #fff !important; border: none !important; border-radius: 8px !important; box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important; animation: none !important;}
+[data-theme="dark"] body.theme-wechat .minimized-phone { background: #2c2c2c !important; }
+body.theme-wechat .minimized-phone::before { display: none !important; }
+body.theme-wechat .mini-phone-icon { background: #07c160 !important; color: #fff !important; border: none !important; border-radius: 6px !important; animation: none !important;}
+[data-theme="dark"] body.theme-wechat .mini-phone-icon { background: #2bba00 !important; }
+body.theme-wechat .mini-phone-time { font-family: inherit !important; font-weight: normal !important; }
+
+/* ---------------- 2. 苹果主题 (iMessage) ---------------- */
+body.theme-imessage .phone-avatar-container { background-color: transparent !important; }
+body.theme-imessage .phone-btn.hangup { background-color: #ff3b30 !important; color: #fff !important;}
+/* 小窗适配 */
+body.theme-imessage .minimized-phone { background: rgba(255,255,255,0.7) !important; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: none !important; border-radius: 20px !important; box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important; }
+[data-theme="dark"] body.theme-imessage .minimized-phone { background: rgba(0,0,0,0.7) !important; }
+body.theme-imessage .minimized-phone::before { display: none !important; }
+body.theme-imessage .mini-phone-icon { background: #34c759 !important; color: #fff !important; border-radius: 50% !important; border: none !important; animation: none !important;}
+body.theme-imessage .mini-phone-time { font-weight: 500 !important; font-family: inherit !important; }
+
+/* ---------------- 3. 果冻少女粉 (Sweet Pink) ---------------- */
+body.theme-pink .phone-avatar-container { background-color: rgba(255,255,255,0.5) !important; }
+body.theme-pink .phone-btn.hangup { background-color: #ff7597 !important; color: #fff !important; border-color: rgba(255,255,255,0.8) !important;}
+/* 小窗适配 */
+body.theme-pink .minimized-phone { background: rgba(255, 255, 255, 0.6) !important; border: 1.5px solid rgba(255,255,255,0.8) !important; border-radius: 24px !important; backdrop-filter: blur(12px); box-shadow: 0 4px 15px rgba(255,180,195,0.3) !important; }
+[data-theme="dark"] body.theme-pink .minimized-phone { background: rgba(43,26,31,0.6) !important; border-color: rgba(255,180,200,0.15) !important;}
+body.theme-pink .minimized-phone::before { border-color: rgba(255,180,195,0.4) !important; border-radius: 20px !important; }
+body.theme-pink .mini-phone-icon { background: linear-gradient(135deg, #ff9eb5, #ff7597) !important; color: #fff !important; border: none !important; border-radius: 50% !important; }
+
+/* ---------------- 4. 毛玻璃全透 (Aero Glass) ---------------- */
+body.theme-glass .phone-avatar-container { background-color: rgba(255,255,255,0.1) !important; }
+body.theme-glass .phone-btn.hangup { background-color: rgba(255,68,68,0.8) !important; color: #fff !important;}
+/* 小窗适配 */
+body.theme-glass .minimized-phone { background: rgba(255, 255, 255, 0.25) !important; border: 1.5px solid rgba(255,255,255,0.5) !important; backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); border-radius: 16px !important; box-shadow: 0 8px 32px rgba(0,0,0,0.1) !important; }
+[data-theme="dark"] body.theme-glass .minimized-phone { background: rgba(0,0,0,0.3) !important; border-color: rgba(255,255,255,0.1) !important; }
+body.theme-glass .minimized-phone::before { border-color: rgba(255,255,255,0.3) !important; }
+body.theme-glass .mini-phone-icon { background: rgba(255,255,255,0.3) !important; color: var(--text-color) !important; border: 1.5px solid rgba(255,255,255,0.5) !important; }
+
+/* ---------------- 5. 极简杂志 (Magazine) ---------------- */
+body.theme-magazine .phone-avatar-container { background-color: var(--panel-bg) !important; }
+body.theme-magazine .phone-btn.hangup { background-color: var(--text-color) !important; color: var(--bg-color) !important; }
+/* 小窗适配 */
+body.theme-magazine .minimized-phone { background: var(--bg-color) !important; border: 1px solid var(--border-color) !important; border-radius: 0 !important; box-shadow: none !important; animation: none !important;}
+body.theme-magazine .minimized-phone::before { display: none !important; }
+body.theme-magazine .mini-phone-icon { background: var(--border-color) !important; color: var(--bg-color) !important; border-radius: 0 !important; animation: none !important;}
+body.theme-magazine .mini-phone-time { font-family: 'Times New Roman', serif !important; font-weight: normal !important; letter-spacing: 2px !important;}
+
+/* ---------------- 6. 温暖手账 (Journal) ---------------- */
+/* 这里修复了头像变白和挂断键消失的问题 */
+body.theme-journal .phone-avatar-container { background-color: #fff !important; }
+body.theme-journal .phone-btn { color: var(--text-color) !important; }
+body.theme-journal .phone-btn.hangup { background-color: #cc4d4d !important; color: #fff !important; border-color: #853333 !important; }
+body.theme-journal #phoneAnswerBtn { background-color: #5c9966 !important; color: #fff !important; border-color: #3b6643 !important; }
+/* 小窗适配：像一张纸胶带贴在右上角 */
+body.theme-journal .minimized-phone { background: #fdfaf6 !important; border: 1px solid var(--border-color) !important; border-radius: 4px !important; box-shadow: 3px 4px 6px rgba(139, 115, 85, 0.15) !important; transform: rotate(-2deg); }
+[data-theme="dark"] body.theme-journal .minimized-phone { background: #3d342d !important; }
+body.theme-journal .minimized-phone::before { border: 1px dashed var(--border-color) !important; opacity: 0.4 !important;}
+body.theme-journal .mini-phone-icon { background: #cc4d4d !important; color: #fff !important; border: 1px solid #853333 !important; border-radius: 50% !important; box-shadow: 1px 2px 0 rgba(0,0,0,0.1) !important; }
+[data-theme="dark"] body.theme-journal .mini-phone-icon { background: #992b2b !important; border-color: #5c1a1a !important;}
 </style>
 
 </head>

@@ -513,7 +513,7 @@ if ('serviceWorker' in navigator) {
         }
         
         /* 悬浮表情包面板样式 */
-        .sticker-panel { display: none; position: absolute; bottom: 100%; left: 12px; right: 12px; margin-bottom: 0px; background: var(--panel-bg); border: 3px solid var(--border-color); border-radius: 12px 12px 0 0; box-shadow: 0 -4px 0 var(--border-color); height: 55vh; z-index: 100; flex-direction: column; overflow: hidden; }
+        .sticker-panel { pointer-events: auto !important; display: none; position: absolute; bottom: 100%; left: 12px; right: 12px; margin-bottom: 0px; background: var(--panel-bg); border: 3px solid var(--border-color); border-radius: 12px 12px 0 0; box-shadow: 0 -4px 0 var(--border-color); height: 55vh; z-index: 100; flex-direction: column; overflow: hidden; }
         .sticker-grid { padding: 12px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; overflow-y: auto; flex: 1; align-content: start; }
         /* 修改：用 padding-bottom: 100% 强行撑开绝对的正方形，解决手机内核兼容导致的挤压问题 */
 .sticker-item { position: relative; border: 3px solid var(--border-color); border-radius: 6px; height: 0; padding-bottom: 100%; background: var(--bg-color); cursor: pointer; overflow: hidden; box-shadow: 2px 2px 0 var(--border-color); transition: transform 0.1s; }

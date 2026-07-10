@@ -2,7 +2,8 @@
 <html lang="zh-CN">
 <head>
 
-<!-- 插入在 <head> 标签里面 -->
+<!-- 就是下面这一行，一定要加上！让手机强制用 https 去拉网易云的歌 -->
+<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 
 <!-- PWA 桌面安装必需清单 -->
 <link rel="manifest" href="manifest.json">
@@ -11742,6 +11743,11 @@ function renderTopPlaylist() {
 function toggleMusicPlay() {
     if (!cachedMusicList || cachedMusicList.length === 0) return;
     
+    // 防错保护：如果当前索引是-1或者超出了列表，强行纠正为 0
+    if (currentPlayingIndex === -1 || currentPlayingIndex >= cachedMusicList.length) {
+        currentPlayingIndex = 0;
+    }
+    
     if (audioPlayer.paused) {
         // 如果是刚开机，src还是空的，注入URL并跳到记录的时间点
         if (!audioPlayer.src || audioPlayer.src.includes(window.location.host) || audioPlayer.src === window.location.href) {
@@ -11750,7 +11756,16 @@ function toggleMusicPlay() {
                 audioPlayer.currentTime = currentSettings.lastMusicTime;
             }
         }
-        audioPlayer.play();
+        
+        // 增加容错：捕获被浏览器拦截的错误防止彻底卡死
+        const playPromise = audioPlayer.play();
+        if (playPromise !== undefined) {
+            playPromise.catch(error => {
+                console.log("音频播放被拦截，可能是网易云VIP无版权歌曲或需要交互解锁：", error);
+                // 遇到加载错误的歌，尝试帮你把按钮状态改回去
+                updatePlayIconState(); 
+            });
+        }
     } else {
         audioPlayer.pause();
         // 暂停时立刻保存一下进度

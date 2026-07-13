@@ -12859,6 +12859,42 @@ async function autoCheckDiaryToWrite() {
         }
     }
 }
+
+// ================= 紧急救援：连点5次屏幕任意位置恢复默认主题 =================
+let rescueClickCount = 0;
+let rescueClickTimer = null;
+
+document.addEventListener('touchstart', (e) => {
+    // 如果点的是正常的按钮，不触发；只在普通区域点击触发
+    if(e.target.closest('button') || e.target.closest('.icon-btn')) return;
+    
+    rescueClickCount++;
+    if (rescueClickTimer) clearTimeout(rescueClickTimer);
+    
+    if (rescueClickCount >= 5) {
+        rescueClickCount = 0;
+        if (confirm("【系统急救】检测到连续点击 5 次！是否要清空所有自定义主题和排版，恢复到默认状态？（放心，不会删除你的聊天记录和角色数据）")) {
+            
+            // 清除所有的美化主题设置
+            currentSettings.themeStyle = 'default';
+            currentSettings.headerStyle = 'default';
+            currentSettings.inputPresetCss = '';
+            currentSettings.bubblePresetCss = '';
+            currentSettings.bubbleCss = '';
+            currentSettings.themeCss = '';
+            
+            // 存入数据库并刷新
+            putToDB('settings', { key: 'config', value: currentSettings }).then(() => {
+                alert("已成功恢复默认排版！即将刷新页面...");
+                location.reload();
+            });
+        }
+    } else {
+        rescueClickTimer = setTimeout(() => {
+            rescueClickCount = 0;
+        }, 800); // 如果超过 0.8 秒没有连续点，就重置次数
+    }
+}, { passive: true });
 </script>
     
 </body>

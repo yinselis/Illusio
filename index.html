@@ -12070,7 +12070,7 @@ async function fetchRealMusicUrl(song) {
     const cookie = localStorage.getItem('netease_cookie') || '';
     try {
         // 调用你部署的 Vercel API，带上你的尊贵身份，获取 VIP 也能听的真实直链！
-        const res = await fetch(`${MY_API_BASE}/song/url?id=${song.id}&cookie=${encodeURIComponent(cookie)}&timestamp=${Date.now()}`);
+        const res = await fetch(`${MY_API_BASE}/song/url/v1?id=${song.id}&realIP=116.25.146.177&cookie=${encodeURIComponent(cookie)}&timestamp=${Date.now()}`);
         const data = await res.json();
         if (data && data.data && data.data[0] && data.data[0].url) {
             // 强行把 http 替换成 https，完美兼容 Github Pages，绝不报错

@@ -5593,7 +5593,7 @@ document.documentElement.style.setProperty('--bg-pattern', currentSettings.showD
                 document.body.style.backgroundSize = 'var(--bg-size)';
             }
 
-                        document.getElementById('customBubbleCss').innerHTML = currentSettings.bubbleCss ? `.bubble { ${currentSettings.bubbleCss} }` : '';
+                        document.getElementById('customBubbleCss').innerHTML = currentSettings.bubbleCss ? currentSettings.bubbleCss : '';
             // 自动加载预设的气泡样式，叠加进去
             if (currentSettings.bubblePresetCss) {
                 document.getElementById('customBubbleCss').innerHTML += `\n${currentSettings.bubblePresetCss}`;
@@ -11328,7 +11328,7 @@ window.applyBubbleStyle = async function(styleId) {
     await putToDB('settings', { key: 'config', value: currentSettings });
     
     // 把新样式塞进去并重新刷一遍整个界面
-    document.getElementById('customBubbleCss').innerHTML = currentSettings.bubbleCss ? `.bubble { ${currentSettings.bubbleCss} }` : '';
+    document.getElementById('customBubbleCss').innerHTML = currentSettings.bubbleCss ? currentSettings.bubbleCss : '';
     if (currentSettings.bubblePresetCss) {
         document.getElementById('customBubbleCss').innerHTML += `\n${currentSettings.bubblePresetCss}`;
     }
